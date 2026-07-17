@@ -128,7 +128,7 @@
     <div class="swatchbar"></div>
     <div class="eyebrow">Prompt studio · Đồ gia dụng thông minh · Google Flow · 9:16</div>
     <h1>Ảnh sản phẩm vào,<br><em>prompt review người thật</em> ra.</h1>
-    <p class="lede">Tải ảnh đồ gia dụng thông minh, gõ tên + dán tính năng. Công cụ đọc ảnh, khoá <b>ADN sản phẩm – người dẫn – bối cảnh – máy quay</b>, rồi viết từng cảnh <b>nhiều shot, người dẫn nói vào máy, demo chức năng thật</b> và nối đầu-đuôi. Mỗi cảnh tự mang đủ ADN và luôn nằm dưới <b>trần 4.000 ký tự</b> mà Flow đếm cho từng lần dựng. Chữ overlay để trong <b>[ngoặc vuông]</b> cho bạn dựng ở CapCut.</p>
+    <p class="lede">Tải ảnh, gõ tên, dán tính năng — và nói rõ <b>ai móc ví, ai xài</b>. Công cụ tìm <b>góc bán</b> trước, rồi mới viết cảnh: người dẫn nói vào máy, tính năng luôn kèm vế “nên là”, cảnh cuối chốt giá và chỉ đường mua. Mỗi cảnh tự mang đủ ADN và luôn nằm dưới <b>trần 4.000 ký tự</b> mà Flow đếm cho từng lần dựng. Chữ overlay để trong <b>[ngoặc vuông]</b> cho bạn dựng ở CapCut.</p>
   </header>
 
   <div class="grid">
@@ -160,59 +160,70 @@
         </div>
 
         <div class="field">
-          <div class="flabel"><span class="num">05</span> Ngân sách ký tự <span class="hint">Flow chặn 4.000/cảnh</span></div>
+          <div class="flabel"><span class="num">05</span> Ai móc ví, ai xài <span class="hint">hai người này thường KHÁC nhau</span></div>
+          <textarea id="pbuyer" placeholder="Ai xem video rồi trả tiền? Ai là người dùng thật? VD: con đi làm xa ở Bình Dương mua, bố mẹ già ở quê xài. Hoặc: vợ mua, chồng lắp."></textarea>
+        </div>
+
+        <div class="field">
+          <div class="flabel"><span class="num">06</span> Giá &amp; chốt đơn <span class="hint">không có giá thì không có đơn</span></div>
+          <textarea id="pcta" placeholder="VD: 590k, hàng sẵn kho, freeship, bảo hành 12 tháng, link ghim dưới bình luận, inbox tư vấn…"></textarea>
+        </div>
+
+        <div class="field">
+          <div class="flabel"><span class="num">07</span> Ngân sách ký tự <span class="hint">Flow chặn 4.000/cảnh</span></div>
           <div class="chips" id="chipsMode"></div>
           <div class="alloc" id="alloc"></div>
         </div>
 
         <div class="field">
-          <div class="flabel"><span class="num">06</span> Số phân cảnh</div>
+          <div class="flabel"><span class="num">08</span> Số phân cảnh</div>
           <div class="seg" id="segScenes"></div>
         </div>
 
         <div class="field">
-          <div class="flabel"><span class="num">07</span> Thời lượng mỗi cảnh <span class="hint">Omni Flash tối đa 10s</span></div>
+          <div class="flabel"><span class="num">09</span> Thời lượng mỗi cảnh <span class="hint">Omni Flash tối đa 10s</span></div>
           <div class="seg" id="segDur"></div>
         </div>
 
         <div class="field">
-          <div class="flabel"><span class="num">08</span> Tiết tấu <span class="hint">quyết định độ dài mỗi shot</span></div>
+          <div class="flabel"><span class="num">10</span> Tiết tấu <span class="hint">quyết định độ dài mỗi shot</span></div>
           <div class="chips" id="chipsPace"></div>
           <div class="alloc" id="paceNote"></div>
         </div>
 
         <div class="field">
-          <div class="flabel"><span class="num">09</span> Số shot mỗi cảnh <span class="hint">nhiều góc trong 1 lần dựng</span></div>
+          <div class="flabel"><span class="num">11</span> Số shot mỗi cảnh <span class="hint">nhiều góc trong 1 lần dựng</span></div>
           <div class="seg" id="segShots"></div>
         </div>
 
         <div class="field">
-          <div class="flabel"><span class="num">10</span> Người dẫn <span class="hint">khoá mặt xuyên suốt</span></div>
+          <div class="flabel"><span class="num">12</span> Người dẫn <span class="hint">khoá mặt xuyên suốt</span></div>
           <div class="chips" id="chipsPresenter"></div>
         </div>
 
         <div class="field">
-          <div class="flabel"><span class="num">11</span> Bối cảnh <span class="hint">nơi sản phẩm sống</span></div>
+          <div class="flabel"><span class="num">13</span> Bối cảnh <span class="hint">nơi sản phẩm sống</span></div>
           <div class="chips" id="chipsSet"></div>
         </div>
 
         <div class="field">
-          <div class="flabel"><span class="num">12</span> Tiếng nói</div>
+          <div class="flabel"><span class="num">14</span> Tiếng nói &amp; giọng bán</div>
           <div class="chips" id="chipsVoice"></div>
+          <div class="chips" id="chipsTone" style="margin-top:7px"></div>
         </div>
 
         <div class="field">
-          <div class="flabel"><span class="num">13</span> Chữ trên màn hình</div>
+          <div class="flabel"><span class="num">15</span> Chữ trên màn hình</div>
           <div class="chips" id="chipsText"></div>
         </div>
 
         <div class="field">
-          <div class="flabel"><span class="num">14</span> Ghi chú thêm <span class="hint">không bắt buộc</span></div>
+          <div class="flabel"><span class="num">16</span> Ghi chú thêm <span class="hint">không bắt buộc</span></div>
           <textarea id="notes" placeholder="Giá, mã giảm, tên shop cần đọc, câu CTA muốn chốt…"></textarea>
         </div>
 
         <div class="field">
-          <div class="flabel"><span class="num">15</span> Nguồn AI <span class="hint">để chạy ngoài claude.ai</span></div>
+          <div class="flabel"><span class="num">17</span> Nguồn AI <span class="hint">để chạy ngoài claude.ai</span></div>
           <div class="chips" id="chipsProv"></div>
           <input type="password" id="key" placeholder="API key" autocomplete="off" style="margin-top:8px">
           <input type="text" id="model" placeholder="model — để trống là dùng mặc định" style="margin-top:6px">
@@ -234,7 +245,7 @@
             <code>SHOT A/B/C</code><span>Từng shot: mốc giây · cỡ cảnh + góc · CAM · ACT · SAY · SFX</span>
             <code>SAY</code><span>Lời người dẫn nói trong shot đó</span>
             <code>EDIT</code><span>Luật cắt trong cảnh</span>
-            <code>PROOF</code><span>Chức năng chạy thật trong khung</span>
+            <code>BEAT</code><span>Cảnh này đẩy người xem tiến bước nào</span>
             <code>TXT</code><span>Chữ overlay — dựng ở CapCut</span>
             <code>MUSIC</code><span>Nhạc nền</span>
             <code>REAL</code><span>Luật quay thật</span>
@@ -250,11 +261,11 @@
         <div class="body">
           <ol>
             <li><b>Lấy key.</b> Gemini: Google AI Studio → Get API key (có bậc miễn phí). Claude: console.anthropic.com → API keys (trả tiền theo lượt dùng).</li>
-            <li><b>Dán key vào mục 15</b> và chọn đúng nguồn. Key nằm trong trình duyệt máy bạn, không gửi đi đâu ngoài nhà cung cấp đó.</li>
+            <li><b>Dán key vào mục 17</b> và chọn đúng nguồn. Key nằm trong trình duyệt máy bạn, không gửi đi đâu ngoài nhà cung cấp đó.</li>
             <li><b>Đừng mở bằng cách bấm đúp file.</b> Mở kiểu <code>file://</code> hay bị chặn CORS. Mở terminal ở thư mục chứa file rồi chạy <code>python3 -m http.server 8000</code>, vào <code>localhost:8000</code>.</li>
             <li><b>Muốn dùng mọi nơi:</b> kéo file vào Netlify Drop hoặc đẩy lên GitHub Pages. Nhớ là ai mở trang cũng phải tự dán key của họ — key của bạn không nằm trong file.</li>
           </ol>
-          <p style="margin:10px 0 0;font-size:12px">Trong claude.ai thì để trống mục 15, chạy sẵn không cần key. Mọi thứ còn lại — ảnh, ngân sách ký tự, đếm ký tự, xuất file — chạy y hệt ở cả hai nơi.</p>
+          <p style="margin:10px 0 0;font-size:12px">Trong claude.ai thì để trống mục 17, chạy sẵn không cần key. Mọi thứ còn lại — ảnh, ngân sách ký tự, đếm ký tự, xuất file — chạy y hệt ở cả hai nơi.</p>
         </div>
       </details>
     </div>
@@ -264,7 +275,7 @@
         <div class="t">Chưa có prompt nào</div>
         <ol>
           <li>Tải ảnh sản phẩm</li>
-          <li>Gõ tên + dán mô tả tính năng</li>
+          <li>Gõ tên, dán tính năng, ghi rõ ai móc ví ai xài</li>
           <li>Chọn số cảnh &amp; thời lượng</li>
           <li>Bấm “Tạo prompt”</li>
         </ol>
@@ -272,7 +283,7 @@
     </div>
   </div>
 
-  <div class="foot">Bán đồ gia dụng thông minh không bán bằng chất — bán bằng <b>nỗi lo được gỡ</b>: nỗi lo → sản phẩm → lắp → demo chức năng → test thật → yên tâm.</div>
+  <div class="foot">Đừng bán cái sản phẩm <b>là</b> — bán cái nó <b>thay đổi</b> trong đời người mua. Mạch: nỗi lo trong lòng → xoay góc → lợi ích → dập nghi ngờ → khoảnh khắc đời thật → chốt đơn.</div>
 </div>
 
 <script>
@@ -307,6 +318,18 @@ const VOICES = [
   ['vo',     'Voiceover ngoài hình'],
   ['none',   'Không lời — chỉ tiếng thật']
 ];
+const TONES = [
+  ['tamsu',  'Tâm sự bà con'],
+  ['chomang','Chợ mạng sôi nổi'],
+  ['chuyengia','Chuyên gia điềm đạm'],
+  ['haihuoc','Hài hước tưng tửng']
+];
+const TONE_TXT = {
+  tamsu:'Giọng tâm sự, nói với bà con như người nhà. Xưng "em", gọi "các bác / anh chị". Dùng chữ đời sống: "canh cánh", "lủi thủi", "thầy bu", "con ba mắt này", "em nó". Chậm, thật, có chỗ ngắt như đang nghĩ. Không một chữ quảng cáo.',
+  chomang:'Giọng bán hàng chợ mạng: nhanh, nhiệt, có cảm thán, chốt đơn dồn dập. Xưng "em/shop", gọi "cả nhà ơi / các bác". Vẫn thật, không gào.',
+  chuyengia:'Giọng điềm đạm, đưa sự thật rồi để người xem tự quyết. Xưng "mình", gọi "anh chị". Ít cảm thán, nặng lý lẽ, thuyết phục bằng logic đời thường.',
+  haihuoc:'Giọng tưng tửng, tự trào, cà khịa nhẹ nỗi khổ của khách rồi mới đưa giải pháp. Vẫn phải chốt đơn đàng hoàng ở cuối.'
+};
 const TEXTS = [
   ['capcut', 'Tôi tự làm ở CapCut'],
   ['render', 'Để Flow render chữ']
@@ -329,7 +352,7 @@ const PROVIDERS = [
 const DEFAULT_MODEL = { claude:'claude-sonnet-5', gemini:'gemini-3.5-flash' };
 const ARTIFACT_MODEL = 'claude-sonnet-4-6';   // khi chạy trong claude.ai, không cần key
 
-const S = { images:[], mode:'scene', scenes:3, dur:10, pace:'fast', shots:0, presenter:'auto', provider:'claude', key:'', model:'', set:'auto', voice:'none', text:'capcut',
+const S = { images:[], mode:'scene', scenes:3, dur:10, pace:'fast', shots:0, presenter:'auto', tone:'tamsu', provider:'claude', key:'', model:'', set:'auto', voice:'none', text:'capcut',
             busy:false, dna:null, header:'', results:[] };
 
 /* Lưu key ở máy người dùng. Trong claude.ai localStorage bị chặn -> nuốt lỗi, ở đó vốn không cần key. */
@@ -364,6 +387,7 @@ chips('chipsMode',MODES,'mode',syncGo);
 chips('chipsPace',PACES,'pace',syncShots);
 seg('segShots',[0,2,3,4],'shots', v=> v===0?'tự động':v+' shot');
 document.getElementById('segShots').addEventListener('click',()=>setTimeout(syncShots,0));
+chips('chipsTone',TONES,'tone');
 chips('chipsPresenter',PRESENTERS,'presenter');
 chips('chipsSet',SETS,'set');
 chips('chipsVoice',VOICES,'voice');
@@ -502,7 +526,7 @@ async function askClaude(messages, system, maxTok){
 }
 
 async function askGemini(messages, system, maxTok, wantJSON){
-  if(!S.key) throw new Error('Gemini cần API key. Lấy ở Google AI Studio rồi dán vào mục 15.');
+  if(!S.key) throw new Error('Gemini cần API key. Lấy ở Google AI Studio rồi dán vào mục 17.');
   const contents = messages.map(m=>({
     role: m.role==='assistant' ? 'model' : 'user',
     parts: (typeof m.content==='string' ? [{type:'text',text:m.content}] : m.content).map(c=>
@@ -619,11 +643,43 @@ function sysAnalyze(){
   const cap = 'ĐỘ DÀI: product_dna ≤80 từ, presenter_dna ≤30 từ, lighting_dna ≤26 từ, camera_dna ≤22 từ, set_dna ≤26 từ. Ghép lại phải ≤'+HEAD_CAP+' ký tự.';
   return `Bạn là đạo diễn kiêm prompt engineer video review ĐỒ GIA DỤNG THÔNG MINH cho thị trường Việt Nam (camera an ninh, khoá vân tay, robot hút bụi, đèn năng lượng mặt trời, nồi chiên, máy lọc nước, quạt, chuông cửa hình...), rành Google Flow / Gemini Omni Flash.
 
+VIỆC KHÓ NHẤT, LÀM TRƯỚC TIÊN — TÌM GÓC BÁN:
+Đừng bán cái sản phẩm LÀ. Bán cái nó THAY ĐỔI trong đời người mua.
+Cùng một cái camera 3 mắt năng lượng mặt trời:
+- Góc dở (ai cũng viết được): "chống trộm, xoay 360, chống nước IP66" → người xem lướt qua.
+- Góc hay (video triệu view): "đi làm ăn xa, canh cánh lo thầy bu ốm đau lủi thủi ở quê. Gửi tiền về chưa chắc ông bà vui bằng con cái ngày nào cũng hỏi han. Treo con này trước hiên, trưa nghỉ tay mở điện thoại ngắm bố mẹ khoẻ mạnh." → camera an ninh biến thành THIẾT BỊ GẮN KẾT GIA ĐÌNH.
+Cùng sản phẩm, cùng tính năng, khác cái tên gọi của nỗi đau. Đó là toàn bộ trò chơi.
+Hãy tìm góc bán kiểu thứ hai. Hỏi: ai mất ngủ vì chuyện gì, và sản phẩm này gỡ đúng chuyện đó thế nào?
+
+ĐỘNG LỰC — THỨ THẬT SỰ LÀM NGƯỜI TA MÓC VÍ:
+Nỗi lo mới chỉ làm người xem gật đầu rồi lướt. Thứ làm họ dừng lại và mua là cảm giác: "mình đang chưa ổn ở điểm này, và bỏ tiền ra thì xoá được cảm giác đó".
+Chọn ĐÚNG MỘT động lực gốc, cái nào làm người ta móc ví nhanh nhất với sản phẩm này:
+áy náy với người thân (chưa làm tròn bổn phận) · sợ hối tiếc (lỡ có chuyện gì thì ân hận cả đời) · sợ mất cái đang có · muốn được công nhận · so bì với người xung quanh (nhà hàng xóm có rồi) · muốn thoát việc cực nhọc · bảo vệ người mình thương · tự thưởng cho mình.
+
+CÂU LẬT — CÂU KHÓ NHẤT CẢ VIDEO, VIẾT CHO KỸ:
+Công thức: tìm thứ người xem ĐANG LÀM để tự thấy mình ổn → phủ nhận nó → chừa lại khoảng trống mà chỉ sản phẩm lấp được.
+- Camera: họ đang GỬI TIỀN VỀ để thấy mình là đứa con tốt → "Gửi tiền về chưa chắc ông bà đã vui bằng việc con cái ngày nào cũng hỏi han đâu ạ." → giờ họ thiếu: sự có mặt hằng ngày. Và mua camera = bằng chứng mình thương bố mẹ.
+- Khoá vân tay: họ đang giữ chùm chìa cẩn thận → "Giữ chìa kỹ mấy thì lúc tay xách nách mang vẫn đứng ngoài cửa mò mẫm."
+LUẬT: câu lật phải làm người xem GẬT ĐẦU CÔNG NHẬN, không được làm họ tự ái. Không chê thẳng người xem. Không nhắc tên sản phẩm trong câu lật. Không dùng câu lật sáo kiểu "bạn có biết rằng".
+
+GIÁ CỦA VIỆC KHÔNG LÀM GÌ: cái mất nếu cứ để yên. Cụ thể, hình dung được, KHÔNG doạ lố. "Lỡ có chuyện gì ở nhà thì ân hận cả đời."
+CÁI CỚ MUA NGAY: biến giá thành chuyện nhỏ bằng cách so với một khoản chi quen thuộc. "Chỉ 590k, rẻ hơn một lần gửi tiền về." Người bán không đưa giá thì so bằng đơn vị đời sống (một bữa nhậu, hai cốc trà sữa) và TUYỆT ĐỐI không bịa con số.
+
+NGƯỜI MUA ≠ NGƯỜI DÙNG — SAI CHỖ NÀY LÀ HỎNG CẢ VIDEO:
+Camera treo ở quê nhưng tiền do con ở Bình Dương trả. Video phải nói với CON, không nói với ông bà.
+Luôn xác định rõ: ai xem video rồi móc ví (BUYER), ai cầm sản phẩm dùng hằng ngày (USER). Mọi lời thoại hướng về BUYER. Mọi tiện lợi phải quy về "USER không phải làm gì cả".
+
+TÍNH NĂNG TRẦN TRỤI LÀ TÍNH NĂNG CHẾT:
+- "Sim 4G tự chạy luôn!" → rồi sao? Vô nghĩa.
+- "Chạy sim 4G độc lập, ông bà chẳng cần rành công nghệ hay cài mạng rườm rà" → có vế "NÊN LÀ", gắn vào đúng nỗi sợ của người mua.
+Mọi tính năng bắt buộc phải có vế sau: nên là gì, cho AI, đỡ được nỗi lo nào.
+
 KHÁC MỸ PHẨM Ở CHỖ NÀO — nhớ kỹ:
 - Review mỹ phẩm giấu mặt, quay bàn tay, bán bằng chất và cảm giác đẹp.
 - Review đồ gia dụng thông minh THẤY MẶT NGƯỜI DẪN, người dẫn nói thẳng vào máy, bán bằng NỖI LO ĐƯỢC GỠ và CHỨC NĂNG CHẠY THẬT trước mắt người xem.
 - Không ai mua camera vì nó đẹp. Họ mua vì mất trộm, vì đi làm xa không biết nhà thế nào, vì con nhỏ ở nhà một mình, vì đàn gà hay bị bắt. Nỗi lo là thứ bán hàng, không phải thông số.
 - Bối cảnh phải là NƠI SẢN PHẨM SỐNG: sân vườn, cổng nhà, trang trại, kho hàng, bếp. Không bao giờ là bàn studio.
+- Nhưng ĐỪNG biến video thành bài demo kỹ thuật. Video triệu view bán bằng CÂU CHUYỆN, đôi khi không có một phép thử nào. Phép thử chỉ để chống lại nghi ngờ cụ thể, không phải để khoe.
 
 NHIỆM VỤ: đọc ảnh + tên + mô tả người bán → soạn STYLE LOCK dùng chung cho mọi cảnh, để sản phẩm, mặt người dẫn, quần áo, bối cảnh không đổi giữa chừng.
 
@@ -636,6 +692,8 @@ THÔNG TIN NGƯỜI BÁN CUNG CẤP LÀ TỐI THƯỢNG:
 - Có MÔ TẢ & TÍNH NĂNG thì đó là NGUỒN SỰ THẬT. functions và proof_tests phải bám vào đó. Mỗi tính năng quy ra MỘT phép thử quay được.
 - Có NỖI ĐAU thì dùng gần như nguyên văn cho pain_point.
 - KHÔNG BỊA: cấm chế thông số, khoảng cách, thời lượng pin, độ phân giải, chuẩn chống nước, giá, bảo hành mà mô tả không có và nhãn không ghi.
+- Có AI MÓC VÍ AI XÀI thì buyer/user lấy gần như nguyên văn, đừng tự đổi sang người khác.
+- Có GIÁ & CHỐT ĐƠN thì cta phải dùng đúng con số đó. Không có giá thì cta chỉ chỉ đường mua, tuyệt đối không bịa số.
 
 ${cap}
 
@@ -648,7 +706,16 @@ TRẢ VỀ DUY NHẤT JSON HỢP LỆ, không markdown, không lời dẫn:
  "set_dna":"tiếng Anh: nơi sản phẩm thật sự sống, đạo cụ chính, chất liệu nền.",
  "lighting_dna":"tiếng Anh: sáng tự nhiên hay đèn gì, hướng, giờ trong ngày.",
  "camera_dna":"tiếng Anh: điện thoại cầm tay, 9:16, cỡ cảnh chủ đạo, kiểu chuyển động.",
- "pain_point":"≤18 từ tiếng Việt. Nỗi lo THẤY ĐƯỢC. VD: 'đi làm cả ngày, gà mất mà không biết ai bắt'",
+ "buyer":"≤14 từ tiếng Việt: ai xem video rồi móc ví, tả cụ thể hoàn cảnh sống",
+ "user":"≤12 từ tiếng Việt: ai cầm sản phẩm dùng hằng ngày. Có thể trùng buyer, thường thì KHÁC",
+ "motive":"đúng MỘT động lực gốc từ danh sách trên, ghi nguyên văn",
+ "reframe_line":"CÂU LẬT, ≤24 từ tiếng Việt, viết sẵn thành câu thoại để người dẫn đọc nguyên văn. Đây là câu quan trọng nhất bạn viết hôm nay.",
+ "cost_of_inaction":"≤18 từ tiếng Việt, viết sẵn thành câu thoại",
+ "permission_to_buy":"≤18 từ tiếng Việt, viết sẵn thành câu thoại, có giá nếu người bán đưa",
+ "big_idea":"≤22 từ tiếng Việt. Sản phẩm này THẬT RA bán cái gì, không phải nó là cái gì. VD: 'không bán camera chống trộm — bán việc ngày nào cũng nhìn thấy bố mẹ còn khoẻ'",
+ "pain_point":"≤20 từ tiếng Việt. Nỗi lo của BUYER, phải là nỗi lo trong LÒNG chứ không phải thông số. VD: 'đi làm ăn xa, canh cánh lo thầy bu ốm đau lủi thủi một mình'",
+ "benefit_map":["3–4 dòng, mỗi dòng dạng 'tính năng → nên là gì cho USER'. VD: 'sim 4G độc lập → ông bà chẳng cần rành công nghệ, không phải cài mạng'"],
+ "life_moment":"≤20 từ tiếng Việt. Khoảnh khắc đời thật của BUYER sau khi có sản phẩm, cảnh này quay được. VD: 'tối tan ca, ngồi bậc thềm mở điện thoại ngắm mẹ quét sân'",
  "functions":["3–5 chức năng chính, mỗi cái ≤10 từ tiếng Việt"],
  "proof_tests":["3–4 phép thử QUAY ĐƯỢC chứng minh chức năng chạy thật, mỗi cái ≤12 từ. VD: 'tắt đèn, màn hình vẫn thấy rõ mặt', 'xịt nước lên thân camera', 'đứng cách 20m gọi, loa kêu ngay'"],
  "phone_screen":"≤16 từ: màn hình app hiện gì khi demo — đây là bằng chứng mạnh nhất, tả cụ thể",
@@ -656,7 +723,8 @@ TRẢ VỀ DUY NHẤT JSON HỢP LỆ, không markdown, không lời dẫn:
  "transformation":"≤18 từ: trước khi có vs sau khi có, cho thấy bằng hình",
  "hero_shot":"≤20 từ: cú máy đắt nhất cho 2 giây hook",
  "selling_points":["3–5 điểm bán tiếng Việt, mỗi cái ≤8 từ"],
- "hook":"câu người dẫn nói ngay giây 0, ≤14 từ, phải chạm nỗi lo"
+ "hook":"câu người dẫn nói ngay giây 0, ≤16 từ, chạm thẳng nỗi lo trong lòng BUYER, kết bằng câu hỏi kiểu 'đúng không các bác?' để người xem gật đầu",
+ "cta":"≤18 từ tiếng Việt: câu chốt đơn cuối video, có giá + lý do mua ngay + chỉ đường mua. Chỉ dùng số liệu người bán đưa, không tự bịa giá"
 }
 
 QUAN TRỌNG: viết đủ ý nhưng KHÔNG DÀI DÒNG — trả lời quá dài sẽ bị cắt giữa chừng và hỏng cả JSON.`;
@@ -679,7 +747,7 @@ function buildHeader(){
 
 function sysScene(budget){
   const n = shotCount();
-  const words = Math.round(S.dur*2.3);
+  const words = Math.round(S.dur*5);
   return `Bạn là đạo diễn kiêm prompt engineer cho Google Flow (Gemini Omni Flash), chuyên video review ĐỒ GIA DỤNG THÔNG MINH kiểu TikTok Việt Nam — loại xem xong là nhắn tin hỏi giá.
 
 CẮT CẢNH — QUAN TRỌNG NHẤT:
@@ -691,14 +759,36 @@ CẮT CẢNH — QUAN TRỌNG NHẤT:
 KHO GÓC MÁY (xoay vòng, mỗi shot một kiểu):
 medium shot người dẫn cầm sản phẩm ngang ngực nói vào máy · cận mặt người dẫn · insert macro chi tiết sản phẩm (ống kính, nút, cổng, tấm pin) · POV nhìn xuống màn hình điện thoại đang chạy app · góc thấp nhìn lên sản phẩm đã lắp trên tường/cột · over-shoulder người dẫn thao tác · wide thấy cả người và nơi lắp · chính hình ảnh camera/thiết bị ghi được (footage trong app) · tay chỉ trỏ vào bộ phận · rack focus từ sản phẩm sang mặt người dẫn.
 
-BÁN BẰNG NỖI LO ĐƯỢC GỠ:
-- Không ai mua vì sản phẩm đẹp. Mỗi cảnh phải gỡ một nỗi lo cụ thể, và gỡ bằng CHỨNG CỨ CHẠY THẬT TRƯỚC MẮT: motor xoay, đèn hồng ngoại đỏ lên, còi hú, app hiện hình, nước xịt vào không sao, khoá bật tách.
-- MÀN HÌNH ĐIỆN THOẠI là bằng chứng mạnh nhất — ít nhất một shot trong cảnh có demo nên là POV nhìn xuống màn hình app đang chạy thật.
-- Cấm shot minh hoạ suông kiểu "đứng cười cầm hộp". Mỗi giây phải trả lời: người xem vừa hết lo cái gì.
+ĐỘNG LỰC LÀ TRỤC CỦA CẢ VIDEO — KHÔNG PHẢI TÍNH NĂNG:
+- Người xem không mua vì sản phẩm tốt. Họ mua vì xem xong thấy "mình đang chưa ổn ở điểm này, và 590k thì xoá được cảm giác đó".
+- Bốn mảnh MOTIVE / CÂU LẬT / GIÁ CỦA VIỆC KHÔNG LÀM GÌ / CÁI CỚ MUA NGAY đã được viết sẵn ở phần dữ liệu. Dùng ĐÚNG NGUYÊN VĂN vào đúng cảnh mà VAI TRÒ CẢNH chỉ định, chỉ được gọt cho khớp nhịp nói, không được viết lại thành ý khác, không được làm nhạt đi.
+- Sau khi có CÂU LẬT, mua sản phẩm không còn là mua đồ — nó là bằng chứng cho thứ người xem muốn tin về chính mình. Mọi lời sau đó phải giữ được tinh thần này.
 
-LỜI NÓI:
-- Tổng lời thoại cả cảnh ≤ ${words} từ. Người thật nói khoảng 2.3 từ/giây — viết dài hơn là Flow đọc như máy bắn liên thanh, lộ ngay là AI.
-- Tiếng Việt đời thường, ngôi "mình / nhà mình / bà con / anh chị". Không văn quảng cáo, không "sản phẩm của chúng tôi".
+NÓI VỚI NGƯỜI MÓC VÍ, KHÔNG NÓI VỚI NGƯỜI XÀI:
+- Mọi lời thoại hướng về BUYER. Nếu USER khác BUYER (camera treo ở quê, con ở xa trả tiền) thì mọi tiện lợi phải quy về "USER chẳng phải làm gì cả".
+- Bám BIG IDEA. Đây là video kể chuyện đời BUYER, không phải bài thuyết minh sản phẩm.
+
+TÍNH NĂNG PHẢI CÓ VẾ "NÊN LÀ":
+- Cấm câu tính năng trần trụi: "Sim 4G tự chạy luôn!" — rồi sao?
+- Bắt buộc dạng: tính năng + nên là gì cho USER. VD "Chạy sim 4G độc lập, ông bà chẳng cần rành công nghệ." Lấy sẵn từ BENEFIT MAP.
+
+ĐỪNG BIẾN VIDEO THÀNH BÀI DEMO KỸ THUẬT:
+- Không phải cảnh nào cũng cần phép thử. Video triệu view nhiều khi không có phép thử nào.
+- Phép thử chỉ dùng để dập một nghi ngờ CỤ THỂ của BUYER ("mưa có sao không", "đêm có thấy gì không"), nhiều nhất ở 1–2 cảnh.
+- Bù lại phải có cảnh KHOẢNH KHẮC ĐỜI THẬT của BUYER — thứ làm người ta gửi video cho vợ/chồng xem. Lấy từ LIFE MOMENT.
+- MÀN HÌNH ĐIỆN THOẠI vẫn là bằng chứng mạnh nhất, nhưng phải cho thấy CÁI BUYER MUỐN THẤY (mẹ đang quét sân), không phải khoe giao diện app.
+- Cấm shot minh hoạ suông kiểu "đứng cười cầm hộp". Mỗi giây phải trả lời: người xem vừa tiến bước nào về phía nút mua.
+
+LỜI NÓI — THỨ QUYẾT ĐỊNH VIDEO SỐNG HAY CHẾT:
+- Viết như người bán đang tâm sự, không như nhân viên thuyết minh:
+  DỞ: "Để em chỉ cho con camera này." / "Quét sạch mọi góc, trộm hết đường lẻn." / "Giờ đi đâu cũng yên tâm nha!"
+  HAY: "Đi làm ăn xa, lúc nào cũng canh cánh lo thầy bu ở quê đúng không các bác?" / "Gửi tiền về chưa chắc ông bà đã vui bằng con cái ngày nào cũng hỏi han đâu ạ." / "Bác nào thương thầy bu thì link em ghim dưới bình luận nha."
+  Khác nhau ở chỗ: câu HAY nói về ĐỜI NGƯỜI XEM, câu DỞ nói về SẢN PHẨM.
+- Cảnh cuối BẮT BUỘC chốt đơn theo CTA: có giá, có lý do mua ngay, có chỉ đường mua. Cấm kết bằng cảm thán suông kiểu "yên tâm nha".
+- Xưng hô và chất giọng theo GIỌNG BÁN được cấp. Không văn quảng cáo, không "sản phẩm của chúng tôi", không "chất lượng vượt trội".
+- Tổng lời thoại cả cảnh ≤ ${words} từ. Tiếng Việt tính theo ÂM TIẾT nên nói nhanh hơn tiếng Anh nhiều: người bán hàng nói ~5 từ/giây. Cảnh ${S.dur}s là ${words} từ.
+- ${words} từ là mức CẦN ĐẠT, không phải trần để né. Viết 80–100% mức đó. Người bán hàng thật nói gần như liên tục — im lặng là mất người xem. Cảnh chỉ có 20 từ là cảnh chết, người dẫn đứng ngây ra nhìn máy.
+- Chia lời theo từng shot có SAY:. Shot nào không thấy mặt người dẫn nói thì bỏ SAY, dồn lời sang shot khác.
 - Lời gắn vào shot nào thì viết ở shot đó (SAY:), để khẩu hình khớp.
 
 BÁM MÔ TẢ NGƯỜI BÁN:
@@ -730,7 +820,7 @@ EDIT: ${n} shots, hard cuts on action, no dissolve. Same face, same outfit, same
 SHOT A 0.0-x.xs | <cỡ cảnh + góc từ kho trên> | CAM: <động tác máy> | ACT: <hành động cụ thể của người dẫn và của sản phẩm> | SAY: "<lời tiếng Việt>" | SFX: <tiếng>
 SHOT B x.x-y.ys | <cỡ cảnh + góc KHÁC shot A> | CAM: … | ACT: … | SAY: "…" (bỏ SAY nếu shot này không thấy mặt nói) | SFX: …
 <đủ ${n} shot, mốc giây nối liền tới hết cảnh>
-PROOF: <chức năng nào chạy thật trong khung cảnh này, thấy bằng mắt>
+BEAT: <cảnh này đẩy người xem tiến bước nào: gật đầu vì đúng chuyện nhà mình / hết một nghi ngờ cụ thể / thèm khoảnh khắc đó / móc máy ra hỏi giá>
 TXT: 0.0-2.5s [chữ Việt ≤6 từ]; 3.0-6.0s [chữ Việt ≤6 từ]
 MUSIC: <có/không, thể loại, mức mix dưới giọng nói>
 IN: <frame đầu shot A, khớp OUT cảnh trước; cảnh 1 ghi: cold open>
@@ -751,6 +841,13 @@ ${pain || '(không có — tự suy ra nỗi đau hợp lý nhất với loại 
 
 BỐI CẢNH CHỌN: ${SET_TXT[S.set]}
 NGƯỜI DẪN CHỌN: ${PRESENTER_TXT[S.presenter]}
+GIỌNG BÁN CHỌN: ${TONE_TXT[S.tone]}
+
+AI MÓC VÍ AI XÀI (người bán cung cấp):
+${val('pbuyer') || '(không có — tự suy ra, nhớ rằng người mua thường KHÁC người dùng)'}
+
+GIÁ & CHỐT ĐƠN (người bán cung cấp):
+${val('pcta') || '(không có — cta chỉ chỉ đường mua, TUYỆT ĐỐI không bịa giá)'}
 GHI CHÚ: ${val('notes')||'(không có)'}
 Ảnh sản phẩm ở trên. Trả JSON theo schema.`;
 }
@@ -762,8 +859,18 @@ function userScene(n, budget){
 ${S.header}
 
 SẢN PHẨM: ${S.dna.product_line} (${S.dna.category})
+BIG IDEA — bám cái này: ${S.dna.big_idea||'—'}
+MOTIVE (động lực gốc): ${S.dna.motive||'—'}
+CÂU LẬT (đọc gần nguyên văn ở cảnh có vai trò CÂU LẬT): "${S.dna.reframe_line||'—'}"
+GIÁ CỦA VIỆC KHÔNG LÀM GÌ (dùng ở cảnh chốt): "${S.dna.cost_of_inaction||'—'}"
+CÁI CỚ MUA NGAY (dùng ở cảnh chốt): "${S.dna.permission_to_buy||'—'}"
+BUYER (nói với người này): ${val('pbuyer') || S.dna.buyer || '—'}
+USER (người xài thật): ${S.dna.user||'—'}
 MÔ TẢ NGƯỜI BÁN: ${val('pdesc')||'(không có)'}
 NỖI LO: ${val('ppain') || S.dna.pain_point || '—'}
+BENEFIT MAP (tính năng → nên là): ${(S.dna.benefit_map||[]).join(' | ')}
+LIFE MOMENT: ${S.dna.life_moment||'—'}
+CTA: ${val('pcta') || S.dna.cta || '—'}
 CHỨC NĂNG: ${(S.dna.functions||[]).join(' | ')}
 PHÉP THỬ QUAY ĐƯỢC: ${(S.dna.proof_tests||[]).join(' | ')}
 MÀN HÌNH APP HIỆN GÌ: ${S.dna.phone_screen||'—'}
@@ -773,11 +880,12 @@ HERO SHOT: ${S.dna.hero_shot||'—'}
 ĐIỂM BÁN: ${(S.dna.selling_points||[]).join(' | ')}
 HOOK: ${S.dna.hook}
 NGƯỜI DẪN: ${PRESENTER_TXT[S.presenter]}
+GIỌNG BÁN: ${TONE_TXT[S.tone]}
 GHI CHÚ NGƯỜI DÙNG: ${val('notes')||'(không có)'}
 
 CẢNH: {n}=${n}, {total}=${S.scenes}, {t0}=${t0}, {t1}=${t1}, thời lượng ${S.dur}s
 SỐ SHOT BẮT BUỘC: ${shotCount()} shot, mỗi shot ~${(S.dur/shotCount()).toFixed(1)}s
-TRẦN TỪ THOẠI CẢ CẢNH: ${Math.round(S.dur*2.3)} từ
+TRẦN TỪ THOẠI CẢ CẢNH: ${Math.round(S.dur*5)} từ (~5 từ/giây)
 NHỊP: ${PACE_TXT[S.pace]}
 VAI TRÒ CẢNH NÀY: ${arcFor(n,S.scenes)}
 ÂM THANH: ${VOICE_TXT[S.voice]}
@@ -791,20 +899,18 @@ Trả JSON theo schema.`;
 }
 
 function arcFor(n,total){
-  const HOOK  = 'HOOK BẰNG NỖI LO. Giây 0 người dẫn đã nói, không có giây chết. Chạm thẳng nỗi lo trong PAIN POINT rồi giơ sản phẩm lên ngang ngực. Cắt: medium shot người dẫn nói → cận sản phẩm trên tay → cú HERO SHOT. Chưa đọc thông số vội.';
-  const PROB  = 'DỰNG LẠI NỖI LO. Cho thấy hiện trường của vấn đề: góc sân tối om, cổng không ai trông, bếp bừa, sàn đầy tóc. Người dẫn chỉ tay vào chỗ đó. Đây là cảnh làm người xem gật đầu "đúng nhà mình".';
-  const PROD  = 'GIỚI THIỆU SẢN PHẨM. Xoay trên tay cho thấy các mặt, insert macro vào bộ phận quan trọng (ống kính, tấm pin, cổng, nút). Người dẫn gọi tên từng bộ phận bằng lời dân dã, không đọc catalogue.';
-  const INSTALL='LẮP ĐẶT. Cho thấy lắp dễ tới mức nào — bắt vít lên tường/cột, hoặc cắm điện, hoặc dán. Nhấn đúng thứ khách sợ: có phải kéo dây không, có phải khoan nhiều không. Cắt: tay bắt vít → góc thấp nhìn lên sản phẩm đã gắn → mặt người dẫn gật gù.';
-  const APP   = 'KẾT NỐI ĐIỆN THOẠI. Đây là cảnh bán hàng mạnh nhất: POV nhìn xuống màn hình app đang chạy thật, thấy hình trực tiếp. Người dẫn vuốt màn hình, sản phẩm ngoài đời phản ứng theo — cắt qua lại giữa màn hình và sản phẩm.';
-  const TEST  = 'TEST THẬT. Lấy đúng một PHÉP THỬ và làm cho tới, phải thấy KẾT QUẢ trong khung: tắt đèn xem đêm, xịt nước, đứng xa gọi, thả rác cho robot hút. Không được cắt trước khi thấy kết quả.';
-  const TRANS = 'TRƯỚC–SAU. Cho thấy TRANSFORMATION: cảnh lúc chưa có vs lúc đã có, cắt liền hai shot cùng khung hình để so sánh. Đây là shot người xem sẽ tua lại và gửi cho chồng/vợ xem.';
-  const CLOSE = 'CHỐT. Người dẫn nhìn thẳng ống kính nói câu chốt chạm nỗi lo ban đầu — "giờ đi đâu cũng yên tâm". Shot cuối: sản phẩm đã lắp, đứng vững ở nơi nó thuộc về. Kết đẹp để loop về đầu.';
+  const HOOK  = 'HOOK BẰNG ĐỘNG LỰC, KHÔNG PHẢI BẰNG SẢN PHẨM. Giây 0 người dẫn đã nói. Nói đúng cái MOTIVE — cảm giác chưa ổn trong lòng BUYER — qua PAIN POINT, kết bằng câu hỏi cho người xem gật đầu ("đúng không các bác?"). CẤM nhắc tên sản phẩm, CẤM nêu tính năng ở cảnh này. Cắt: medium shot người dẫn nói → cảnh gợi đúng nỗi lo đó (sân vắng, hiên nhà trống, bóng người già lủi thủi) → cận mặt người dẫn.';
+  const TWIST = 'CÂU LẬT — CẢNH QUAN TRỌNG NHẤT VIDEO. BẮT BUỘC đọc gần như nguyên văn CÂU LẬT đã cấp trong dữ liệu, đặt ở shot đầu tiên của cảnh, để người xem thấy thứ mình vẫn làm là chưa đủ. Ngừng một nhịp cho câu đó ngấm. RỒI MỚI giơ sản phẩm lên: "giải pháp đây rồi". Đây là chỗ sản phẩm biến thành thứ khác — bám BIG IDEA. Vẫn chưa được đọc thông số.';
+  const BENEFIT='TÍNH NĂNG DỊCH THÀNH LỢI ÍCH. Lấy 2–3 dòng từ BENEFIT MAP, mỗi dòng đều phải có vế "nên là" cho USER. Hình đi kèm chứng minh nhẹ: tấm pin dưới nắng, khe sim, cột không dây. Nói nhanh, không sa đà thông số.';
+  const DOUBT = 'DẬP NGHI NGỜ. Chỉ lấy đúng nghi ngờ lớn nhất của BUYER và dập bằng một phép thử quay được, phải thấy KẾT QUẢ trong khung. Một phép thử thôi, làm cho tới, đừng khoe nhiều.';
+  const LIFE  = 'KHOẢNH KHẮC ĐỜI THẬT — CẢNH ĐẮT NHẤT VIDEO. Dựng LIFE MOMENT của BUYER: tối tan ca ngồi bậc thềm mở điện thoại, thấy mẹ đang quét sân, mặt giãn ra. Màn hình điện thoại phải cho thấy CÁI BUYER MUỐN THẤY chứ không phải giao diện app. Đây là shot người ta gửi cho vợ/chồng xem.';
+  const CLOSE = 'CHỐT ĐƠN — ĐỦ BA MẢNH, THIẾU MẢNH NÀO LÀ MẤT ĐƠN. Theo đúng thứ tự: (1) GIÁ CỦA VIỆC KHÔNG LÀM GÌ, đọc gần nguyên văn dữ liệu đã cấp, để người xem thấy cái mất nếu cứ để yên; (2) CÁI CỚ MUA NGAY, biến giá thành chuyện nhỏ; (3) CTA: mua ở đâu, vì sao mua ngay. Người dẫn nhìn thẳng ống kính. Câu cuối phải buộc lại đúng MOTIVE mở đầu — kiểu "bác nào thương thầy bu thì...", để mua hàng thành bằng chứng của tình cảm. CẤM kết bằng "yên tâm nha" suông. Shot cuối: sản phẩm đứng ở nơi nó thuộc về, đẹp để loop về đầu.';
   const map = {
-    2:[HOOK+' Nối luôn sang giới thiệu ở shot cuối.', APP+' Rồi '+TEST+' '+CLOSE],
-    3:[HOOK+' '+PROB, PROD+' '+INSTALL, APP+' '+TEST+' '+CLOSE],
-    4:[HOOK+' '+PROB, PROD, INSTALL+' '+APP, TEST+' '+TRANS+' '+CLOSE],
-    5:[HOOK, PROB, PROD+' '+INSTALL, APP+' '+TEST, TRANS+' '+CLOSE],
-    6:[HOOK, PROB, PROD, INSTALL, APP+' '+TEST, TRANS+' '+CLOSE]
+    2:[HOOK+' '+TWIST, BENEFIT+' '+LIFE+' '+CLOSE],
+    3:[HOOK+' '+TWIST, BENEFIT+' '+DOUBT, LIFE+' '+CLOSE],
+    4:[HOOK, TWIST+' '+BENEFIT, DOUBT+' '+LIFE, CLOSE],
+    5:[HOOK, TWIST, BENEFIT+' '+DOUBT, LIFE, CLOSE],
+    6:[HOOK, TWIST, BENEFIT, DOUBT, LIFE, CLOSE]
   };
   return (map[total]||map[4])[n-1] || CLOSE;
 }
@@ -818,6 +924,7 @@ async function run(){
   const name=document.getElementById('pname').value.trim();
   if(!S.images.length) return note('Cần ít nhất 1 ảnh sản phẩm. Bấm vào ô kéo-thả để chọn ảnh.',true);
   if(!name)            return note('Cần tên sản phẩm để đọc đúng thương hiệu và mã màu.',true);
+  if(!val('pbuyer') && !confirm('Chưa điền “Ai móc ví, ai xài” (mục 05).\n\nĐây là ô quyết định video hay hay dở. Camera treo ở quê nhưng con ở xa trả tiền — video phải nói với CON, không nói với ông bà. Thiếu nó, AI sẽ nói với nhầm người.\n\nVẫn chạy chứ?')) return;
   if(!val('pdesc') && !confirm('Chưa có mô tả & tính năng (mục 03).\n\nThiếu nó thì AI phải tự đoán chức năng, và lời thoại sẽ chung chung kiểu "chất đẹp lắm" thay vì "kiềm dầu 12 tiếng" — bán kém hẳn.\n\nVẫn chạy chứ?')) return;
 
   S.busy=true; S.results=[]; S.dna=null; S.header='';
