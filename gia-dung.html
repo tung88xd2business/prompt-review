@@ -1,0 +1,1095 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Be+Vietnam+Pro:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --ink:#16202A; --ink-2:#4A5A68; --ink-3:#8496A3;
+    --line:#DBE3E9; --paper:#EDF1F4; --card:#FFFFFF;
+    --lilac:#1F6FB2; --lilac-soft:#E4EEF7; --pink:#F5A524;
+    --ok:#1B7A4B; --ok-bg:#EAF7F0; --warn:#9A5B00; --warn-bg:#FFF3E0; --bad:#A32250; --bad-bg:#FFEBF1;
+    --swatch:linear-gradient(90deg,#F5A524 0%,#E8703A 34%,#2B6CB0 68%,#12293B 100%);
+    --r:14px; --shadow:0 1px 2px rgba(22,32,42,.05), 0 12px 30px -18px rgba(22,32,42,.35);
+    --f-disp:"Bricolage Grotesque","Be Vietnam Pro",system-ui,sans-serif;
+    --f-body:"Be Vietnam Pro",system-ui,-apple-system,sans-serif;
+    --f-mono:"JetBrains Mono","Be Vietnam Pro",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:14px;line-height:1.55;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1180px;margin:0 auto;padding:22px 18px 60px}
+  .swatchbar{height:9px;border-radius:99px;background:var(--swatch);margin-bottom:16px}
+  .eyebrow{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--lilac);font-weight:500}
+  h1{font-family:var(--f-disp);font-weight:800;font-size:clamp(26px,4.4vw,40px);line-height:1.05;letter-spacing:-.02em;margin:6px 0 8px}
+  h1 em{font-style:normal;background:var(--swatch);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .lede{color:var(--ink-2);max-width:66ch;margin:0}
+  .lede b{color:var(--ink);font-weight:600}
+  .grid{display:grid;grid-template-columns:392px 1fr;gap:18px;align-items:start;margin-top:20px}
+  @media(max-width:900px){.grid{grid-template-columns:1fr}}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+  .panel .pad{padding:16px}
+  .sticky{position:sticky;top:14px}
+  @media(max-width:900px){.sticky{position:static}}
+  .flabel{display:flex;align-items:baseline;gap:8px;font-weight:600;font-size:12.5px;margin:0 0 7px}
+  .flabel .num{font-family:var(--f-mono);font-size:10px;color:#fff;background:var(--ink);border-radius:5px;padding:1px 5px;font-weight:500}
+  .hint{color:var(--ink-3);font-size:11.5px;font-weight:400;margin-left:auto}
+  .field + .field{margin-top:15px}
+  input[type=text],textarea{width:100%;font-family:var(--f-body);font-size:13.5px;color:var(--ink);background:#FAFCFD;border:1px solid var(--line);border-radius:10px;padding:9px 11px;outline:none}
+  textarea{resize:vertical;min-height:62px;line-height:1.5}
+  #pdesc{min-height:96px}
+  input:focus,textarea:focus{border-color:var(--lilac);box-shadow:0 0 0 3px var(--lilac-soft)}
+  #drop{border:1.5px dashed #C9D6DF;border-radius:12px;background:#FAFCFD;padding:16px;text-align:center;cursor:pointer;transition:.15s}
+  #drop:hover,#drop.over{border-color:var(--lilac);background:var(--lilac-soft)}
+  #drop .big{font-family:var(--f-disp);font-weight:600;font-size:14px}
+  #drop .sub{color:var(--ink-3);font-size:11.5px;margin-top:2px}
+  .thumbs{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .thumb{position:relative;width:66px;height:66px;border-radius:9px;overflow:hidden;border:1px solid var(--line);background:#fff}
+  .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+  .thumb button{position:absolute;top:2px;right:2px;width:18px;height:18px;border-radius:99px;border:0;background:rgba(22,32,42,.72);color:#fff;font-size:11px;line-height:1;cursor:pointer;padding:0}
+  .seg{display:flex;gap:5px;flex-wrap:wrap}
+  .seg button{font-family:var(--f-mono);font-size:12px;font-weight:500;padding:6px 0;min-width:38px;flex:1;border:1px solid var(--line);background:#FAFCFD;color:var(--ink-2);border-radius:8px;cursor:pointer;transition:.12s}
+  .seg button:hover{border-color:#AFC4D2}
+  .seg button[aria-pressed=true]{background:var(--ink);border-color:var(--ink);color:#fff}
+  .chips{display:flex;gap:6px;flex-wrap:wrap}
+  .chips button{font-size:12px;padding:6px 10px;border:1px solid var(--line);background:#FAFCFD;color:var(--ink-2);border-radius:99px;cursor:pointer;transition:.12s;font-family:var(--f-body)}
+  .chips button:hover{border-color:#AFC4D2}
+  .chips button[aria-pressed=true]{background:var(--lilac-soft);border-color:var(--lilac);color:#155A93;font-weight:600}
+  .alloc{margin-top:9px;font-family:var(--f-mono);font-size:10.5px;color:var(--ink-3);line-height:1.6}
+  .alloc b{color:var(--ink-2);font-weight:500}
+  .alloc.tight{color:var(--warn)}
+  .go{width:100%;margin-top:16px;border:0;border-radius:11px;padding:13px;font-family:var(--f-disp);font-weight:700;font-size:15px;color:#fff;background:var(--ink);cursor:pointer;letter-spacing:-.01em}
+  .go:hover{background:#27394A}
+  .go:disabled{background:#C6BDD0;cursor:not-allowed}
+  .go .k{font-family:var(--f-mono);font-weight:400;font-size:11px;opacity:.65;margin-left:6px}
+  .empty{border:1px dashed #C9D6DF;border-radius:var(--r);background:rgba(255,255,255,.5);padding:40px 24px;text-align:center;color:var(--ink-3)}
+  .empty .t{font-family:var(--f-disp);font-size:16px;font-weight:600;color:var(--ink-2)}
+  .empty ol{text-align:left;max-width:340px;margin:14px auto 0;padding-left:18px;font-size:12.5px;line-height:1.9}
+  .status{display:flex;align-items:center;gap:9px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px;box-shadow:var(--shadow);margin-bottom:12px}
+  .spin{width:14px;height:14px;border-radius:99px;border:2px solid var(--lilac-soft);border-top-color:var(--lilac);animation:sp .7s linear infinite;flex:none}
+  @keyframes sp{to{transform:rotate(360deg)}}
+  @media(prefers-reduced-motion:reduce){.spin{animation:none}}
+  .status .msg{font-size:12.5px;color:var(--ink-2)}
+  .status.err{border-color:#F2C7D6;background:var(--bad-bg)}
+  .status.err .msg{color:var(--bad)}
+  .meter{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:13px 14px;box-shadow:var(--shadow);margin-bottom:12px}
+  .meter-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:9px;flex-wrap:wrap}
+  .meter-head .t{font-family:var(--f-disp);font-weight:600;font-size:13px}
+  .meter-head .n{font-family:var(--f-mono);font-size:12px;font-weight:500}
+  .meter-head .n.ok{color:var(--ok)} .meter-head .n.warn{color:var(--warn)} .meter-head .n.bad{color:var(--bad)}
+  .bar{height:8px;border-radius:99px;background:#E6EDF2;overflow:hidden}
+  .bar i{display:block;height:100%;border-radius:99px;background:var(--swatch);transition:width .3s}
+  .bar i.bad{background:linear-gradient(90deg,#FF9EC4,#A32250)}
+  .segs{display:flex;gap:3px;margin-top:9px}
+  .sg{flex:1;height:24px;border-radius:6px;background:#EFF4F7;display:flex;align-items:center;justify-content:center;font-family:var(--f-mono);font-size:10px;color:var(--ink-3)}
+  .sg.done{background:var(--lilac-soft);color:#155A93;font-weight:500}
+  .sg.over{background:var(--bad-bg);color:var(--bad);font-weight:500}
+  .meter-note{font-size:11px;color:var(--ink-3);margin-top:8px}
+  .toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+  .tbtn{font-size:12.5px;font-weight:600;padding:8px 12px;border-radius:9px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;font-family:var(--f-body);box-shadow:var(--shadow)}
+  .tbtn:hover{border-color:var(--lilac);color:var(--lilac)}
+  .tbtn.primary{background:var(--ink);border-color:var(--ink);color:#fff}
+  .tbtn.primary:hover{background:#27394A;color:#fff}
+  .scene{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden;margin-bottom:12px}
+  .scene .stripe{height:5px;background:var(--swatch)}
+  .scene.lock .stripe{background:var(--ink)}
+  .scene-head{display:flex;align-items:center;gap:9px;padding:11px 14px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .badge{font-family:var(--f-mono);font-size:10.5px;font-weight:500;background:var(--ink);color:#fff;border-radius:6px;padding:2px 7px;flex:none}
+  .scene-head .name{font-family:var(--f-disp);font-weight:600;font-size:14px;letter-spacing:-.01em}
+  .cc{font-family:var(--f-mono);font-size:10px;font-weight:500;border-radius:5px;padding:2px 6px;background:var(--ok-bg);color:var(--ok);flex:none}
+  .cc.warn{background:var(--warn-bg);color:var(--warn)}
+  .cc.over{background:var(--bad-bg);color:var(--bad)}
+  .scene-head .time{font-family:var(--f-mono);font-size:11px;color:var(--ink-3);margin-left:auto}
+  .copy{border:1px solid var(--line);background:#FAFCFD;border-radius:8px;font-size:11.5px;font-weight:600;padding:5px 9px;cursor:pointer;font-family:var(--f-body);color:var(--ink-2)}
+  .copy:hover{border-color:var(--lilac);color:var(--lilac)}
+  pre.prompt{margin:0;padding:14px;font-family:var(--f-mono);font-size:11.5px;line-height:1.72;white-space:pre-wrap;word-wrap:break-word;color:#1E2B36;max-height:420px;overflow:auto}
+  pre.prompt::-webkit-scrollbar{width:9px}
+  pre.prompt::-webkit-scrollbar-thumb{background:#CBD8E1;border-radius:9px;border:3px solid #fff}
+  details.guide{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);margin-top:14px}
+  details.guide summary{padding:12px 14px;cursor:pointer;font-weight:600;font-size:13px;font-family:var(--f-disp);list-style:none}
+  details.guide summary::-webkit-details-marker{display:none}
+  details.guide summary::before{content:"→ ";color:var(--lilac)}
+  details.guide[open] summary::before{content:"↓ "}
+  details.guide .body{padding:0 14px 14px;font-size:12.5px;color:var(--ink-2)}
+  details.guide .body ol{padding-left:17px;line-height:1.85;margin:0}
+  details.guide .body code{font-family:var(--f-mono);font-size:11px;background:var(--lilac-soft);color:#155A93;padding:1px 5px;border-radius:4px}
+  .legend{display:grid;grid-template-columns:auto 1fr;gap:3px 10px;font-size:12px;margin:0}
+  .legend code{font-family:var(--f-mono);font-size:11px;color:#155A93;background:var(--lilac-soft);padding:1px 5px;border-radius:4px;justify-self:start}
+  .fixbox{background:#FAFCFD;border:1px solid var(--line);border-radius:10px;padding:10px;font-family:var(--f-mono);font-size:11px;line-height:1.65;white-space:pre-wrap;margin:9px 0 0;color:#1E2B36}
+  .cpwrap{position:fixed;inset:0;background:rgba(22,32,42,.55);display:flex;align-items:center;justify-content:center;padding:18px;z-index:99}
+  .cpbox{background:var(--card);border-radius:var(--r);box-shadow:0 24px 60px -20px rgba(22,32,42,.6);width:min(640px,100%);max-height:80vh;display:flex;flex-direction:column;padding:14px}
+  .cphead{display:flex;align-items:center;justify-content:space-between;gap:10px;font-family:var(--f-disp);font-size:14px}
+  .cpnote{font-size:12px;color:var(--ink-2);margin:6px 0 9px}
+  .cpbox textarea{flex:1;min-height:260px;font-family:var(--f-mono);font-size:11.5px;line-height:1.6;background:#FAFCFD}
+  .foot{margin-top:22px;font-size:11.5px;color:var(--ink-3);text-align:center}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="swatchbar"></div>
+    <div class="eyebrow">Prompt studio · Đồ gia dụng thông minh · Google Flow · 9:16</div>
+    <h1>Ảnh sản phẩm vào,<br><em>prompt review người thật</em> ra.</h1>
+    <p class="lede">Tải ảnh đồ gia dụng thông minh, gõ tên + dán tính năng. Công cụ đọc ảnh, khoá <b>ADN sản phẩm – người dẫn – bối cảnh – máy quay</b>, rồi viết từng cảnh <b>nhiều shot, người dẫn nói vào máy, demo chức năng thật</b> và nối đầu-đuôi. Mỗi cảnh tự mang đủ ADN và luôn nằm dưới <b>trần 4.000 ký tự</b> mà Flow đếm cho từng lần dựng. Chữ overlay để trong <b>[ngoặc vuông]</b> cho bạn dựng ở CapCut.</p>
+  </header>
+
+  <div class="grid">
+    <div class="sticky">
+      <section class="panel"><div class="pad">
+        <div class="field">
+          <div class="flabel"><span class="num">01</span> Ảnh sản phẩm <span class="hint">tối đa 3 ảnh</span></div>
+          <div id="drop">
+            <div class="big">Kéo ảnh vào đây</div>
+            <div class="sub">hoặc bấm để chọn · nên có 1 ảnh chính diện rõ nhãn</div>
+          </div>
+          <input type="file" id="file" accept="image/*" multiple hidden>
+          <div class="thumbs" id="thumbs"></div>
+        </div>
+
+        <div class="field">
+          <div class="flabel"><span class="num">02</span> Tên sản phẩm</div>
+          <input type="text" id="pname" placeholder="VD: Camera an ninh năng lượng mặt trời 3 mắt 4G">
+        </div>
+
+        <div class="field">
+          <div class="flabel"><span class="num">03</span> Mô tả &amp; tính năng <span class="hint">càng cụ thể càng bán được</span></div>
+          <textarea id="pdesc" placeholder="Dán mô tả từ shop: chức năng, độ phân giải, pin mấy ngày, có cần kéo dây điện không, chống nước chuẩn gì, app tên gì, xoay bao nhiêu độ, đàm thoại 2 chiều…"></textarea>
+        </div>
+
+        <div class="field">
+          <div class="flabel"><span class="num">04</span> Nỗi lo khách hàng <span class="hint">bỏ trống thì AI tự đoán</span></div>
+          <textarea id="ppain" placeholder="Khách lo cái gì? VD: đi làm cả ngày không biết ai vào sân; hay mất gà mất đồ; con nhỏ ở nhà với bà; đêm tối không nhìn thấy gì"></textarea>
+        </div>
+
+        <div class="field">
+          <div class="flabel"><span class="num">05</span> Ngân sách ký tự <span class="hint">Flow chặn 4.000/cảnh</span></div>
+          <div class="chips" id="chipsMode"></div>
+          <div class="alloc" id="alloc"></div>
+        </div>
+
+        <div class="field">
+          <div class="flabel"><span class="num">06</span> Số phân cảnh</div>
+          <div class="seg" id="segScenes"></div>
+        </div>
+
+        <div class="field">
+          <div class="flabel"><span class="num">07</span> Thời lượng mỗi cảnh <span class="hint">Omni Flash tối đa 10s</span></div>
+          <div class="seg" id="segDur"></div>
+        </div>
+
+        <div class="field">
+          <div class="flabel"><span class="num">08</span> Tiết tấu <span class="hint">quyết định độ dài mỗi shot</span></div>
+          <div class="chips" id="chipsPace"></div>
+          <div class="alloc" id="paceNote"></div>
+        </div>
+
+        <div class="field">
+          <div class="flabel"><span class="num">09</span> Số shot mỗi cảnh <span class="hint">nhiều góc trong 1 lần dựng</span></div>
+          <div class="seg" id="segShots"></div>
+        </div>
+
+        <div class="field">
+          <div class="flabel"><span class="num">10</span> Người dẫn <span class="hint">khoá mặt xuyên suốt</span></div>
+          <div class="chips" id="chipsPresenter"></div>
+        </div>
+
+        <div class="field">
+          <div class="flabel"><span class="num">11</span> Bối cảnh <span class="hint">nơi sản phẩm sống</span></div>
+          <div class="chips" id="chipsSet"></div>
+        </div>
+
+        <div class="field">
+          <div class="flabel"><span class="num">12</span> Tiếng nói</div>
+          <div class="chips" id="chipsVoice"></div>
+        </div>
+
+        <div class="field">
+          <div class="flabel"><span class="num">13</span> Chữ trên màn hình</div>
+          <div class="chips" id="chipsText"></div>
+        </div>
+
+        <div class="field">
+          <div class="flabel"><span class="num">14</span> Ghi chú thêm <span class="hint">không bắt buộc</span></div>
+          <textarea id="notes" placeholder="Giá, mã giảm, tên shop cần đọc, câu CTA muốn chốt…"></textarea>
+        </div>
+
+        <div class="field">
+          <div class="flabel"><span class="num">15</span> Nguồn AI <span class="hint">để chạy ngoài claude.ai</span></div>
+          <div class="chips" id="chipsProv"></div>
+          <input type="password" id="key" placeholder="API key" autocomplete="off" style="margin-top:8px">
+          <input type="text" id="model" placeholder="model — để trống là dùng mặc định" style="margin-top:6px">
+          <div class="alloc" id="provNote"></div>
+        </div>
+
+        <button class="go" id="go">Tạo prompt <span class="k" id="gok"></span></button>
+      </div></section>
+
+      <details class="guide">
+        <summary>Ký hiệu trong prompt</summary>
+        <div class="body">
+          <div class="legend">
+            <code>PROD</code><span>Sản phẩm</span>
+            <code>PRESENTER</code><span>Người dẫn — khoá mặt, tóc, quần áo</span>
+            <code>SET</code><span>Nơi sản phẩm sống</span>
+            <code>LIGHT</code><span>Ánh sáng</span>
+            <code>CAM</code><span>Góc máy &amp; bố cục</span>
+            <code>SHOT A/B/C</code><span>Từng shot: mốc giây · cỡ cảnh + góc · CAM · ACT · SAY · SFX</span>
+            <code>SAY</code><span>Lời người dẫn nói trong shot đó</span>
+            <code>EDIT</code><span>Luật cắt trong cảnh</span>
+            <code>PROOF</code><span>Chức năng chạy thật trong khung</span>
+            <code>TXT</code><span>Chữ overlay — dựng ở CapCut</span>
+            <code>MUSIC</code><span>Nhạc nền</span>
+            <code>REAL</code><span>Luật quay thật</span>
+            <code>NEG</code><span>Danh sách cấm</span>
+            <code>IN / OUT</code><span>Frame nối đầu &amp; cuối cảnh</span>
+          </div>
+          <p style="margin:10px 0 0;font-size:12px">Nhãn viết tắt là cố ý: trần 4.000 ký tự mỗi cảnh, nhãn dài ăn mất chỗ tả hình. Model đọc nhãn ngắn không sao, bảng này là để bạn dò.</p>
+        </div>
+      </details>
+
+      <details class="guide">
+        <summary>Chạy độc lập, không cần claude.ai</summary>
+        <div class="body">
+          <ol>
+            <li><b>Lấy key.</b> Gemini: Google AI Studio → Get API key (có bậc miễn phí). Claude: console.anthropic.com → API keys (trả tiền theo lượt dùng).</li>
+            <li><b>Dán key vào mục 15</b> và chọn đúng nguồn. Key nằm trong trình duyệt máy bạn, không gửi đi đâu ngoài nhà cung cấp đó.</li>
+            <li><b>Đừng mở bằng cách bấm đúp file.</b> Mở kiểu <code>file://</code> hay bị chặn CORS. Mở terminal ở thư mục chứa file rồi chạy <code>python3 -m http.server 8000</code>, vào <code>localhost:8000</code>.</li>
+            <li><b>Muốn dùng mọi nơi:</b> kéo file vào Netlify Drop hoặc đẩy lên GitHub Pages. Nhớ là ai mở trang cũng phải tự dán key của họ — key của bạn không nằm trong file.</li>
+          </ol>
+          <p style="margin:10px 0 0;font-size:12px">Trong claude.ai thì để trống mục 15, chạy sẵn không cần key. Mọi thứ còn lại — ảnh, ngân sách ký tự, đếm ký tự, xuất file — chạy y hệt ở cả hai nơi.</p>
+        </div>
+      </details>
+    </div>
+
+    <div id="out">
+      <div class="empty">
+        <div class="t">Chưa có prompt nào</div>
+        <ol>
+          <li>Tải ảnh sản phẩm</li>
+          <li>Gõ tên + dán mô tả tính năng</li>
+          <li>Chọn số cảnh &amp; thời lượng</li>
+          <li>Bấm “Tạo prompt”</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">Bán đồ gia dụng thông minh không bán bằng chất — bán bằng <b>nỗi lo được gỡ</b>: nỗi lo → sản phẩm → lắp → demo chức năng → test thật → yên tâm.</div>
+</div>
+
+<script>
+/* ============================ CONFIG ============================ */
+const HARD_CAP  = 4000;   // trần cứng của Flow.generate.video()
+const SAFE_CAP  = 3780;   // trần làm việc, chừa 220 đệm cho phần Flow tự thêm
+const HEAD_CAP  = 1350;   // trần cho khối STYLE LOCK nằm trong mỗi cảnh
+
+const MODES = [
+  ['scene', 'Mỗi cảnh ≤4.000 (Flow)'],
+  ['free',  'Không giới hạn (dán tay)']
+];
+const SETS = [
+  ['auto',  'Tự chọn theo sản phẩm'],
+  ['yard',  'Sân vườn / cổng nhà quê'],
+  ['farm',  'Trang trại / vườn ao'],
+  ['ware',  'Kho hàng công ty'],
+  ['shop',  'Cửa hàng / showroom'],
+  ['house', 'Trong nhà — khách/bếp'],
+  ['street','Mặt tiền nhà phố']
+];
+const PRESENTERS = [
+  ['auto',   'Tự chọn theo sản phẩm'],
+  ['sales',  'Nữ nhân viên trẻ, áo đồng phục'],
+  ['owner',  'Nam chủ shop 30–40'],
+  ['farmer', 'Nông dân trung niên'],
+  ['wife',   'Nội trợ 30–40'],
+  ['tech',   'Thợ lắp đặt, áo bảo hộ']
+];
+const VOICES = [
+  ['direct', 'Nói thẳng vào máy'],
+  ['vo',     'Voiceover ngoài hình'],
+  ['none',   'Không lời — chỉ tiếng thật']
+];
+const TEXTS = [
+  ['capcut', 'Tôi tự làm ở CapCut'],
+  ['render', 'Để Flow render chữ']
+];
+
+const PACES = [
+  ['fast', 'Nhanh — TikTok'],
+  ['mid',  'Vừa'],
+  ['slow', 'Chậm — sang']
+];
+const PACE_TXT = {
+  fast:'Nhịp TikTok: mỗi shot 1.8–2.8s, cắt ngay khi hành động vừa trọn, không có giây chết. Shot đầu phải có chuyển động ngay từ frame 1.',
+  mid: 'Nhịp vừa: mỗi shot 2.5–4s, đủ thở nhưng không lê thê.',
+  slow:'Nhịp chậm sang: mỗi shot 4–5s, máy trôi mượt, nhấn vào chất liệu và ánh sáng.'
+};
+const PROVIDERS = [
+  ['claude', 'Claude (Anthropic)'],
+  ['gemini', 'Gemini (Google AI Studio)']
+];
+const DEFAULT_MODEL = { claude:'claude-sonnet-5', gemini:'gemini-3.5-flash' };
+const ARTIFACT_MODEL = 'claude-sonnet-4-6';   // khi chạy trong claude.ai, không cần key
+
+const S = { images:[], mode:'scene', scenes:3, dur:10, pace:'fast', shots:0, presenter:'auto', provider:'claude', key:'', model:'', set:'auto', voice:'none', text:'capcut',
+            busy:false, dna:null, header:'', results:[] };
+
+/* Lưu key ở máy người dùng. Trong claude.ai localStorage bị chặn -> nuốt lỗi, ở đó vốn không cần key. */
+const store = {
+  get(k){ try{ return localStorage.getItem(k)||''; }catch(e){ return ''; } },
+  set(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+};
+
+/* ============================ UI ============================ */
+function seg(host, values, key, fmtLabel){
+  const el = document.getElementById(host); el.innerHTML='';
+  values.forEach(v=>{
+    const b=document.createElement('button');
+    b.textContent = fmtLabel? fmtLabel(v): v;
+    b.setAttribute('aria-pressed', S[key]===v);
+    b.onclick=()=>{ S[key]=v; seg(host,values,key,fmtLabel); syncGo(); };
+    el.appendChild(b);
+  });
+}
+function chips(host, pairs, key, after){
+  const el=document.getElementById(host); el.innerHTML='';
+  pairs.forEach(([v,label])=>{
+    const b=document.createElement('button'); b.textContent=label;
+    b.setAttribute('aria-pressed', S[key]===v);
+    b.onclick=()=>{ S[key]=v; chips(host,pairs,key,after); if(after) after(); };
+    el.appendChild(b);
+  });
+}
+seg('segScenes',[2,3,4,5,6],'scenes');
+seg('segDur',[6,8,10],'dur', v=>v+'s');
+chips('chipsMode',MODES,'mode',syncGo);
+chips('chipsPace',PACES,'pace',syncShots);
+seg('segShots',[0,2,3,4],'shots', v=> v===0?'tự động':v+' shot');
+document.getElementById('segShots').addEventListener('click',()=>setTimeout(syncShots,0));
+chips('chipsPresenter',PRESENTERS,'presenter');
+chips('chipsSet',SETS,'set');
+chips('chipsVoice',VOICES,'voice');
+chips('chipsText',TEXTS,'text');
+chips('chipsProv',PROVIDERS,'provider',()=>{ S.key = store.get('key_'+S.provider); document.getElementById('key').value = S.key; syncProv(); });
+
+const keyEl=document.getElementById('key'), modelEl=document.getElementById('model');
+S.key = store.get('key_'+S.provider); keyEl.value = S.key;
+S.model = store.get('model_'+S.provider); modelEl.value = S.model;
+keyEl.oninput   = e=>{ S.key = e.target.value.trim(); store.set('key_'+S.provider, S.key); syncProv(); };
+modelEl.oninput = e=>{ S.model = e.target.value.trim(); store.set('model_'+S.provider, S.model); };
+
+function activeModel(){
+  if(S.model) return S.model;
+  if(S.provider==='claude' && !S.key) return ARTIFACT_MODEL;
+  return DEFAULT_MODEL[S.provider];
+}
+function syncProv(){
+  const n=document.getElementById('provNote');
+  document.getElementById('model').placeholder = 'model — để trống là ' + activeModel();
+  if(S.provider==='claude' && !S.key){
+    n.className='alloc';
+    n.innerHTML='Không có key: chỉ chạy được <b>bên trong claude.ai</b>, dùng <b>'+ARTIFACT_MODEL+'</b>. Mở file ở nơi khác thì phải dán key.';
+  } else if(!S.key){
+    n.className='alloc tight';
+    n.innerHTML='Gemini bắt buộc có key. Lấy ở Google AI Studio → Get API key.';
+  } else {
+    n.className='alloc';
+    n.innerHTML='Chạy độc lập bằng key của bạn, model <b>'+activeModel()+'</b>. Key nằm ở trình duyệt máy bạn, tính phí vào tài khoản bạn.';
+  }
+}
+syncProv();
+
+/* Mỗi cảnh = STYLE LOCK + phần riêng, cả cụm phải lọt 4.000 */
+function headerCap(){ return HEAD_CAP; }
+function sceneCap(){
+  if (S.mode==='free') return 3000;
+  const head = S.header ? S.header.length : HEAD_CAP;
+  return Math.max(600, SAFE_CAP - head - 2);
+}
+function shotCount(){
+  const ceiling = Math.max(2, Math.floor(S.dur/1.7));   // shot ngắn hơn ~1.7s là Flow dựng ra mớ nhoè
+  if (S.shots) return Math.min(S.shots, ceiling);
+  const per = S.pace==='fast' ? 2.4 : (S.pace==='mid' ? 3.2 : 4.6);
+  return Math.max(2, Math.min(ceiling, Math.min(5, Math.round(S.dur/per))));
+}
+function syncShots(){
+  const n=shotCount();
+  const el=document.getElementById('paceNote');
+  if(el) el.innerHTML = PACE_TXT[S.pace].split(':')[0] + ' → <b>'+n+' shot</b> trong '+S.dur+'s, mỗi shot ~<b>'+(S.dur/n).toFixed(1)+'s</b>. Tổng video '+(S.scenes*n)+' góc máy.';
+  const seg=document.getElementById('segShots');
+  if(seg) seg.querySelectorAll('button')[0].textContent = 'tự động ('+n+')';
+}
+function syncGo(){
+  syncShots();
+  document.getElementById('gok').textContent = S.scenes+' cảnh · '+(S.scenes*S.dur)+'s';
+  const a = document.getElementById('alloc');
+  if (S.mode==='scene'){
+    a.className='alloc';
+    a.innerHTML = 'Mỗi cảnh = STYLE LOCK <b>~'+HEAD_CAP+'</b> + phần riêng <b>~'+sceneCap()+'</b> ≈ <b>'+SAFE_CAP+'</b> / 4.000 ký tự.<br>Số cảnh không ảnh hưởng trần — Flow đếm từng cảnh một.';
+  } else {
+    a.className='alloc';
+    a.innerHTML = 'Không cắt gì cả. Chỉ dùng khi bạn dán tay vào ô prompt của Flow, không qua Tool.';
+  }
+}
+syncGo();
+
+/* ============================ ẢNH ============================ */
+const drop=document.getElementById('drop'), fileInput=document.getElementById('file');
+drop.onclick=()=>fileInput.click();
+drop.ondragover=e=>{e.preventDefault();drop.classList.add('over')};
+drop.ondragleave=()=>drop.classList.remove('over');
+drop.ondrop=e=>{e.preventDefault();drop.classList.remove('over');handleFiles(e.dataTransfer.files)};
+fileInput.onchange=e=>handleFiles(e.target.files);
+
+async function handleFiles(list){
+  for (const f of Array.from(list)){
+    if(!f.type.startsWith('image/')) continue;
+    if(S.images.length>=3) break;
+    try{ S.images.push(await shrink(f)); }catch(err){ console.error(err); }
+  }
+  paintThumbs();
+}
+function shrink(file){
+  return new Promise((res,rej)=>{
+    const fr=new FileReader();
+    fr.onerror=()=>rej(new Error('Không đọc được ảnh'));
+    fr.onload=()=>{
+      const img=new Image();
+      img.onerror=()=>rej(new Error('Ảnh lỗi'));
+      img.onload=()=>{
+        const max=900, sc=Math.min(1,max/Math.max(img.width,img.height));
+        const c=document.createElement('canvas');
+        c.width=Math.round(img.width*sc); c.height=Math.round(img.height*sc);
+        const x=c.getContext('2d'); x.fillStyle='#fff'; x.fillRect(0,0,c.width,c.height);
+        x.drawImage(img,0,0,c.width,c.height);
+        const url=c.toDataURL('image/jpeg',.88);
+        res({b64:url.split(',')[1], media_type:'image/jpeg', url});
+      };
+      img.src=fr.result;
+    };
+    fr.readAsDataURL(file);
+  });
+}
+function paintThumbs(){
+  const t=document.getElementById('thumbs'); t.innerHTML='';
+  S.images.forEach((im,i)=>{
+    const d=document.createElement('div'); d.className='thumb';
+    const g=document.createElement('img'); g.src=im.url; d.appendChild(g);
+    const x=document.createElement('button'); x.textContent='×';
+    x.onclick=()=>{S.images.splice(i,1);paintThumbs()};
+    d.appendChild(x); t.appendChild(d);
+  });
+}
+
+/* ============================ API ============================ */
+async function ask(messages, system, maxTok, wantJSON){
+  return S.provider==='gemini' ? askGemini(messages, system, maxTok, wantJSON)
+                               : askClaude(messages, system, maxTok);
+}
+
+async function askClaude(messages, system, maxTok){
+  const h = {"Content-Type":"application/json"};
+  if(S.key){                       // chạy độc lập bằng key riêng
+    h["x-api-key"] = S.key;
+    h["anthropic-version"] = "2023-06-01";
+    h["anthropic-dangerous-direct-browser-access"] = "true";
+  }
+  const r = await fetch("https://api.anthropic.com/v1/messages",{
+    method:"POST", headers:h,
+    body: JSON.stringify({ model: activeModel(), max_tokens: maxTok||1000, system, messages })
+  });
+  if(!r.ok) throw new Error(await apiErr(r, 'Anthropic'));
+  const d = await r.json();
+  return (d.content||[]).map(b=> b.type==='text'? b.text : '').join('\n');
+}
+
+async function askGemini(messages, system, maxTok, wantJSON){
+  if(!S.key) throw new Error('Gemini cần API key. Lấy ở Google AI Studio rồi dán vào mục 15.');
+  const contents = messages.map(m=>({
+    role: m.role==='assistant' ? 'model' : 'user',
+    parts: (typeof m.content==='string' ? [{type:'text',text:m.content}] : m.content).map(c=>
+      c.type==='image'
+        ? { inline_data:{ mime_type:c.source.media_type, data:c.source.data } }
+        : { text:c.text }
+    )
+  }));
+  const url = 'https://generativelanguage.googleapis.com/v1beta/models/'
+            + encodeURIComponent(activeModel()) + ':generateContent';
+  const r = await fetch(url,{
+    method:'POST',
+    headers:{ 'Content-Type':'application/json', 'x-goog-api-key': S.key },   // header, không nhét key vào URL
+    body: JSON.stringify({
+      contents,
+      systemInstruction:{ parts:[{ text: system }] },
+      generationConfig: Object.assign({ maxOutputTokens: maxTok||1000 }, wantJSON?{responseMimeType:'application/json'}:{})
+    })
+  });
+  if(!r.ok) throw new Error(await apiErr(r, 'Gemini'));
+  const d = await r.json();
+  const parts = ((d.candidates||[])[0]?.content?.parts)||[];
+  const out = parts.map(p=>p.text||'').filter(Boolean).join('\n');
+  if(!out) throw new Error('Gemini trả về rỗng — thường do model chặn nội dung hoặc hết maxOutputTokens.');
+  return out;
+}
+
+async function apiErr(r, who){
+  let detail='';
+  try{ const j=await r.json(); detail = j.error?.message || JSON.stringify(j).slice(0,160); }catch(e){}
+  if(r.status===401||r.status===403) return who+' từ chối key (lỗi '+r.status+'). Kiểm tra lại API key ở mục 10.';
+  if(r.status===429) return who+' báo quá hạn mức (429). Chờ chút rồi thử lại.';
+  if(r.status===404) return who+' không có model "'+activeModel()+'" (404). Sửa tên model ở mục 10.';
+  return who+' lỗi '+r.status+(detail?': '+detail:'')+'.';
+}
+
+function parseJSON(txt){
+  let t=(txt||'').replace(/```json/gi,'').replace(/```/g,'').trim();
+  const a=t.indexOf('{');
+  if(a>0) t=t.slice(a);
+  const b=t.lastIndexOf('}');
+  if(b>0){ try{ return JSON.parse(t.slice(0,b+1)); }catch(e){} }
+  return JSON.parse(repairJSON(t));
+}
+/* Model bị cắt giữa chừng thì vá lại: lùi về mốc lành gần nhất rồi đóng ngoặc. */
+function repairJSON(t){
+  const cands=[];
+  let inStr=false, esc=false;
+  const stack=[];
+  for(let i=0;i<t.length;i++){
+    const c=t[i];
+    if(esc){ esc=false; continue; }
+    if(c==='\\'){ esc=true; continue; }
+    if(c==='"'){ inStr=!inStr; if(!inStr) cands.push([i+1, stack.slice()]); continue; }
+    if(inStr) continue;
+    if(c==='{'||c==='[') stack.push(c==='{'?'}':']');
+    else if(c==='}'||c===']'){ stack.pop(); cands.push([i+1, stack.slice()]); }
+  }
+  for(let k=cands.length-1;k>=0;k--){
+    const [i,st]=cands[k];
+    if(!st.length) continue;                      // đã đóng hết thì không phải chỗ cần vá
+    const cand = t.slice(0,i).replace(/[,:]\s*$/,'') + st.slice().reverse().join('');
+    try{ JSON.parse(cand); return cand; }catch(e){}
+  }
+  throw new Error('Kết quả trả về hỏng nặng, không vá được. Bấm “Tạo prompt” chạy lại.');
+}
+/* Cảnh trả về dạng text thuần: prompt có dấu ngoặc kép, [ngoặc vuông], xuống dòng — nhét vào JSON là gãy. */
+function parseScene(txt){
+  const t=(txt||'').replace(/```/g,'');
+  const title=(t.match(/TITLE:\s*(.+)/)||[])[1]||'';
+  let body=(t.split('---BODY---')[1]||'').trim();
+  if(!body) throw new Error('Model không trả đúng khuôn (thiếu ---BODY---).');
+  const out=(body.match(/\nOUT:\s*([\s\S]+?)(?:\n|$)/)||[])[1];
+  if(!out) throw new Error('TRUNCATED');
+  return { title:title.trim(), body:body.trim(), continuity_out:out.trim() };
+}
+
+/* ============================ KHỐI CỐ ĐỊNH ============================ */
+const REAL_MICRO = 'REAL: shot on a phone by a colleague, handheld, natural micro-shake and one refocus hunt; available light, no grade, no flare; real skin with pores and sweat sheen, real fabric wrinkles, real dust and scuffs on the product; product has true weight in the hands; environment is a real working place, not a set. Every cut is a HARD CUT: camera repositioned like a real editor cut, same presenter, same outfit, same product, same location across cuts.';
+function negMicro(){
+  const base = 'no watermark, no logo overlay, no emoji, no dissolve, no fade, no whip transition, no speed ramp, no slow motion, no morphing between cuts, no face changing across cuts, no outfit changing across cuts, no product changing shape or color across cuts, no extra fingers, no label distortion, no beauty filter, no cinematic grade, no studio backdrop, no stock-footage look, no garbled speech, no lip-sync drift';
+  return 'NEG: ' + (S.text==='capcut' ? 'no on-screen text, no captions, ' : '') + base + '.';
+}
+
+const PRESENTER_TXT = {
+  auto:  'Tự chọn người dẫn hợp tệp khách của sản phẩm này.',
+  sales: 'Nữ Việt 22–27, tóc buộc gọn hoặc xoã ngang vai, áo polo/sơ mi đồng phục công ty, quần jean, nói nhanh gọn tự tin, kiểu nhân viên kinh doanh đứng ở kho.',
+  owner: 'Nam Việt 30–40, tóc ngắn, áo polo hoặc sơ mi bỏ thùng, dáng chắc, nói chậm chắc, kiểu chủ cửa hàng nói với khách quen.',
+  farmer:'Nam Việt 45–55, da rám nắng, nếp nhăn thật, mũ cối hoặc mũ lưỡi trai bạc màu, áo sơ mi hoặc áo bảo hộ, nói mộc mạc, kiểu bà con nông dân chỉ cho hàng xóm.',
+  wife:  'Nữ Việt 30–40, tóc buộc, áo thun/sơ mi ở nhà, thân thiện, nói kiểu hàng xóm mách nhau.',
+  tech:  'Nam Việt 25–35, áo bảo hộ hoặc áo thun công ty, tay có vết dầu mỡ, nói kiểu thợ giải thích cho chủ nhà.'
+};
+const SET_TXT = {
+  auto:  'Tự chọn nơi lắp/dùng thật nhất với sản phẩm này, đúng đời sống Việt Nam.',
+  yard:  'Sân trước nhà quê: tường rào gạch, cổng sắt, xe máy dựng góc sân, cây xanh, dây điện vắt ngang, nắng chiều thật.',
+  farm:  'Trang trại: vườn cây hoặc ao cá, chuồng trại, cột bê tông, lưới B40, đất thật, xa xa có nhà cấp bốn.',
+  ware:  'Kho hàng công ty: kệ sắt cao chất thùng carton, sàn bê tông, đèn tuýp trên trần, vài nhân viên áo đồng phục đi lại mờ ở hậu cảnh — bối cảnh cho thấy hàng có kho, có công ty thật.',
+  shop:  'Cửa hàng/showroom: sản phẩm bày trên kệ kính phía sau, biển hiệu, đèn led trắng.',
+  house: 'Trong nhà Việt: phòng khách có ghế sofa và tủ thờ, hoặc bếp có bàn ăn — đồ đạc bày thật, không sắp như studio.',
+  street:'Mặt tiền nhà phố: cửa cuốn, bậc thềm, biển số nhà, xe cộ chạy qua mờ ở hậu cảnh.'
+};
+const VOICE_TXT = {
+  direct:'Người dẫn NÓI THẲNG VÀO ỐNG KÍNH bằng tiếng Việt, khẩu hình khớp lời, giọng đời thường không kịch, như đang nói với một người quen. Có tiếng môi trường thật phía sau. Nhạc nền rất nhỏ hoặc không có.',
+  vo:    'Không thấy người nói, chỉ có voiceover tiếng Việt trên hình. Vẫn có tiếng môi trường thật. Nhạc nền nhỏ.',
+  none:  'Không lời. Chỉ tiếng thật của thao tác và môi trường + tiếng của chính sản phẩm (còi báo động, tiếng motor xoay, tiếng bíp). Nhạc nền nhẹ.'
+};
+const TEXT_TXT = {
+  capcut:'Video KHÔNG render chữ. Dòng TXT chỉ là ghi chú cho CapCut, đặt trong [ngoặc vuông].',
+  render:'Video CÓ render chữ tiếng Việt đúng nội dung trong [ngoặc vuông], font tròn, chữ trắng, 1/3 dưới.'
+};
+
+/* ============================ PROMPT ENGINE ============================ */
+function sysAnalyze(){
+  const cap = 'ĐỘ DÀI: product_dna ≤80 từ, presenter_dna ≤30 từ, lighting_dna ≤26 từ, camera_dna ≤22 từ, set_dna ≤26 từ. Ghép lại phải ≤'+HEAD_CAP+' ký tự.';
+  return `Bạn là đạo diễn kiêm prompt engineer video review ĐỒ GIA DỤNG THÔNG MINH cho thị trường Việt Nam (camera an ninh, khoá vân tay, robot hút bụi, đèn năng lượng mặt trời, nồi chiên, máy lọc nước, quạt, chuông cửa hình...), rành Google Flow / Gemini Omni Flash.
+
+KHÁC MỸ PHẨM Ở CHỖ NÀO — nhớ kỹ:
+- Review mỹ phẩm giấu mặt, quay bàn tay, bán bằng chất và cảm giác đẹp.
+- Review đồ gia dụng thông minh THẤY MẶT NGƯỜI DẪN, người dẫn nói thẳng vào máy, bán bằng NỖI LO ĐƯỢC GỠ và CHỨC NĂNG CHẠY THẬT trước mắt người xem.
+- Không ai mua camera vì nó đẹp. Họ mua vì mất trộm, vì đi làm xa không biết nhà thế nào, vì con nhỏ ở nhà một mình, vì đàn gà hay bị bắt. Nỗi lo là thứ bán hàng, không phải thông số.
+- Bối cảnh phải là NƠI SẢN PHẨM SỐNG: sân vườn, cổng nhà, trang trại, kho hàng, bếp. Không bao giờ là bàn studio.
+
+NHIỆM VỤ: đọc ảnh + tên + mô tả người bán → soạn STYLE LOCK dùng chung cho mọi cảnh, để sản phẩm, mặt người dẫn, quần áo, bối cảnh không đổi giữa chừng.
+
+CÁCH LÀM:
+1. Nhìn kỹ ảnh: hình khối, kích thước so với tay/người, chất liệu, màu (kèm hex), số mắt ống kính, tấm pin, ăng-ten, chân đế, nút bấm, cổng cắm, chữ trên thân, đèn báo. Chỉ tả cái THẤY, không bịa.
+2. Suy ra sản phẩm này CHẠY THẾ NÀO và quay chức năng đó ra sao. Chức năng phải nhìn thấy được: motor xoay, đèn hồng ngoại đỏ lên, còi hú, app hiện hình, khoá mở tách, robot né chân ghế, nước chảy ra.
+3. Nghĩ như người bán ngoài chợ: khách hỏi câu gì trước? "Có cần kéo dây điện không?", "Mưa có sao không?", "Đêm có thấy gì không?", "Xem trên điện thoại được không?" — mỗi câu hỏi đó là một phép thử phải quay.
+
+THÔNG TIN NGƯỜI BÁN CUNG CẤP LÀ TỐI THƯỢNG:
+- Có MÔ TẢ & TÍNH NĂNG thì đó là NGUỒN SỰ THẬT. functions và proof_tests phải bám vào đó. Mỗi tính năng quy ra MỘT phép thử quay được.
+- Có NỖI ĐAU thì dùng gần như nguyên văn cho pain_point.
+- KHÔNG BỊA: cấm chế thông số, khoảng cách, thời lượng pin, độ phân giải, chuẩn chống nước, giá, bảo hành mà mô tả không có và nhãn không ghi.
+
+${cap}
+
+TRẢ VỀ DUY NHẤT JSON HỢP LỆ, không markdown, không lời dẫn:
+{
+ "product_line":"thương hiệu + tên + model đọc được từ ảnh",
+ "category":"camera an ninh / khoá cửa / robot hút bụi / …",
+ "product_dna":"tiếng Anh, tả để dựng lại giống hệt ảnh: hình khối, kích thước so với bàn tay người lớn, chất liệu, màu + hex, số ống kính, tấm pin, chân đế, đèn báo, chữ trên thân. Kết bằng: 'Match image_0 exactly.'",
+ "presenter_dna":"tiếng Anh: người dẫn Việt Nam — tuổi, tóc, trang phục cụ thể, dáng người, thái độ. Đây là thứ khoá mặt qua các cảnh nên phải cụ thể và CỐ ĐỊNH.",
+ "set_dna":"tiếng Anh: nơi sản phẩm thật sự sống, đạo cụ chính, chất liệu nền.",
+ "lighting_dna":"tiếng Anh: sáng tự nhiên hay đèn gì, hướng, giờ trong ngày.",
+ "camera_dna":"tiếng Anh: điện thoại cầm tay, 9:16, cỡ cảnh chủ đạo, kiểu chuyển động.",
+ "pain_point":"≤18 từ tiếng Việt. Nỗi lo THẤY ĐƯỢC. VD: 'đi làm cả ngày, gà mất mà không biết ai bắt'",
+ "functions":["3–5 chức năng chính, mỗi cái ≤10 từ tiếng Việt"],
+ "proof_tests":["3–4 phép thử QUAY ĐƯỢC chứng minh chức năng chạy thật, mỗi cái ≤12 từ. VD: 'tắt đèn, màn hình vẫn thấy rõ mặt', 'xịt nước lên thân camera', 'đứng cách 20m gọi, loa kêu ngay'"],
+ "phone_screen":"≤16 từ: màn hình app hiện gì khi demo — đây là bằng chứng mạnh nhất, tả cụ thể",
+ "install_context":"≤14 từ: lắp ở đâu, gắn vào gì, có cần dây không",
+ "transformation":"≤18 từ: trước khi có vs sau khi có, cho thấy bằng hình",
+ "hero_shot":"≤20 từ: cú máy đắt nhất cho 2 giây hook",
+ "selling_points":["3–5 điểm bán tiếng Việt, mỗi cái ≤8 từ"],
+ "hook":"câu người dẫn nói ngay giây 0, ≤14 từ, phải chạm nỗi lo"
+}
+
+QUAN TRỌNG: viết đủ ý nhưng KHÔNG DÀI DÒNG — trả lời quá dài sẽ bị cắt giữa chừng và hỏng cả JSON.`;
+}
+
+function buildHeader(){
+  const d = S.dna;
+  return [
+    'STYLE LOCK — áp cho mọi cảnh',
+    'FMT: 9:16, '+S.dur+'s, native audio, Vietnamese speech. image_0 = product photo.',
+    'PROD: '+d.product_dna,
+    'PRESENTER: '+d.presenter_dna,
+    'SET: '+d.set_dna,
+    'LIGHT: '+d.lighting_dna,
+    'CAM: '+d.camera_dna,
+    REAL_MICRO,
+    negMicro()
+  ].join('\n');
+}
+
+function sysScene(budget){
+  const n = shotCount();
+  const words = Math.round(S.dur*2.3);
+  return `Bạn là đạo diễn kiêm prompt engineer cho Google Flow (Gemini Omni Flash), chuyên video review ĐỒ GIA DỤNG THÔNG MINH kiểu TikTok Việt Nam — loại xem xong là nhắn tin hỏi giá.
+
+CẮT CẢNH — QUAN TRỌNG NHẤT:
+- Một cảnh KHÔNG phải một cú máy. Mỗi cảnh là chuỗi ${n} SHOT nối bằng HARD CUT, dựng trong cùng một lần render.
+- Mỗi shot đổi CỠ CẢNH và GÓC so với shot trước. Không hai shot liền nhau cùng cỡ cùng góc.
+- Xuyên suốt các cut: MẶT người dẫn, kiểu tóc, quần áo, sản phẩm, bối cảnh phải Y HỆT. Chỉ máy đổi chỗ.
+- Cắt đúng lúc hành động vừa trọn. Không dissolve, không quay chậm.
+
+KHO GÓC MÁY (xoay vòng, mỗi shot một kiểu):
+medium shot người dẫn cầm sản phẩm ngang ngực nói vào máy · cận mặt người dẫn · insert macro chi tiết sản phẩm (ống kính, nút, cổng, tấm pin) · POV nhìn xuống màn hình điện thoại đang chạy app · góc thấp nhìn lên sản phẩm đã lắp trên tường/cột · over-shoulder người dẫn thao tác · wide thấy cả người và nơi lắp · chính hình ảnh camera/thiết bị ghi được (footage trong app) · tay chỉ trỏ vào bộ phận · rack focus từ sản phẩm sang mặt người dẫn.
+
+BÁN BẰNG NỖI LO ĐƯỢC GỠ:
+- Không ai mua vì sản phẩm đẹp. Mỗi cảnh phải gỡ một nỗi lo cụ thể, và gỡ bằng CHỨNG CỨ CHẠY THẬT TRƯỚC MẮT: motor xoay, đèn hồng ngoại đỏ lên, còi hú, app hiện hình, nước xịt vào không sao, khoá bật tách.
+- MÀN HÌNH ĐIỆN THOẠI là bằng chứng mạnh nhất — ít nhất một shot trong cảnh có demo nên là POV nhìn xuống màn hình app đang chạy thật.
+- Cấm shot minh hoạ suông kiểu "đứng cười cầm hộp". Mỗi giây phải trả lời: người xem vừa hết lo cái gì.
+
+LỜI NÓI:
+- Tổng lời thoại cả cảnh ≤ ${words} từ. Người thật nói khoảng 2.3 từ/giây — viết dài hơn là Flow đọc như máy bắn liên thanh, lộ ngay là AI.
+- Tiếng Việt đời thường, ngôi "mình / nhà mình / bà con / anh chị". Không văn quảng cáo, không "sản phẩm của chúng tôi".
+- Lời gắn vào shot nào thì viết ở shot đó (SAY:), để khẩu hình khớp.
+
+BÁM MÔ TẢ NGƯỜI BÁN:
+- SAY và TXT chỉ được nói cái có trong MÔ TẢ NGƯỜI BÁN hoặc đọc được trên nhãn. Cấm bịa thông số, khoảng cách, giờ pin, chuẩn chống nước, giá, bảo hành.
+- Mỗi cảnh cắm ít nhất một chức năng cụ thể vào lời HOẶC vào hình.
+
+LUẬT KHÁC:
+- Khối STYLE LOCK đã nằm sẵn ở đầu cảnh, TUYỆT ĐỐI KHÔNG chép lại.
+- Phần mô tả hình viết tiếng Anh gọn. Lời thoại và chữ overlay giữ TIẾNG VIỆT có dấu.
+- Các shot cộng lại đúng bằng thời lượng cảnh.
+- IN của cảnh n khớp y hệt OUT của cảnh n-1.
+- Không tên người thật, không nhân vật/IP có bản quyền.
+
+NGÂN SÁCH: phần sau ---BODY--- PHẢI ≤ ${budget} ký tự. Cộng với STYLE LOCK là vừa trần 4.000 của Flow. Tự đếm trước khi trả. Dùng hết 80–95% ngân sách.
+Chạm trần thì hy sinh: bỏ tính từ → gộp câu → rút SET+/LIGHT+. KHÔNG BAO GIỜ bỏ: shot nào cả, SAY, TXT, IN, OUT.
+
+KHUÔN TRẢ LỜI — trả về ĐÚNG dạng text này, KHÔNG dùng JSON, KHÔNG markdown, KHÔNG lời dẫn:
+TITLE: <tên cảnh ngắn tiếng Việt>
+---BODY---
+<toàn bộ prompt theo TEMPLATE dưới>
+
+Dòng OUT: là dòng CUỐI CÙNG, bắt buộc phải có, viết xong mới được dừng.
+
+TEMPLATE (giữ nguyên nhãn, thứ tự, xuống dòng; đúng ${n} dòng SHOT):
+=== SCENE {n}/{total} · {t0}–{t1} · {title} ===
+SET+: <cái gì trong khung, cái gì mờ ở hậu cảnh>
+LIGHT+: <sáng ở đâu, bóng đổ thế nào, giờ trong ngày>
+EDIT: ${n} shots, hard cuts on action, no dissolve. Same face, same outfit, same product across cuts.
+SHOT A 0.0-x.xs | <cỡ cảnh + góc từ kho trên> | CAM: <động tác máy> | ACT: <hành động cụ thể của người dẫn và của sản phẩm> | SAY: "<lời tiếng Việt>" | SFX: <tiếng>
+SHOT B x.x-y.ys | <cỡ cảnh + góc KHÁC shot A> | CAM: … | ACT: … | SAY: "…" (bỏ SAY nếu shot này không thấy mặt nói) | SFX: …
+<đủ ${n} shot, mốc giây nối liền tới hết cảnh>
+PROOF: <chức năng nào chạy thật trong khung cảnh này, thấy bằng mắt>
+TXT: 0.0-2.5s [chữ Việt ≤6 từ]; 3.0-6.0s [chữ Việt ≤6 từ]
+MUSIC: <có/không, thể loại, mức mix dưới giọng nói>
+IN: <frame đầu shot A, khớp OUT cảnh trước; cảnh 1 ghi: cold open>
+OUT: <frame cuối shot cuối, để cảnh sau nối vào>`;
+}
+
+function val(id){ return document.getElementById(id).value.trim(); }
+
+function userAnalyze(){
+  const desc = val('pdesc'), pain = val('ppain');
+  return `TÊN SẢN PHẨM: ${val('pname')}
+
+MÔ TẢ & TÍNH NĂNG NGƯỜI BÁN CUNG CẤP:
+${desc || '(không có — tự suy từ ảnh và tên, và ĐỪNG bịa số liệu hay thành phần)'}
+
+NỖI ĐAU NGƯỜI BÁN CUNG CẤP:
+${pain || '(không có — tự suy ra nỗi đau hợp lý nhất với loại sản phẩm này)'}
+
+BỐI CẢNH CHỌN: ${SET_TXT[S.set]}
+NGƯỜI DẪN CHỌN: ${PRESENTER_TXT[S.presenter]}
+GHI CHÚ: ${val('notes')||'(không có)'}
+Ảnh sản phẩm ở trên. Trả JSON theo schema.`;
+}
+
+function userScene(n, budget){
+  const t0=fmt((n-1)*S.dur), t1=fmt(n*S.dur);
+  const prev = n>1 ? S.results[n-2].continuity_out : 'cold open — chưa có cảnh trước';
+  return `STYLE LOCK (đã ghép sẵn, CHỈ để bạn biết ngữ cảnh — KHÔNG chép lại vào body):
+${S.header}
+
+SẢN PHẨM: ${S.dna.product_line} (${S.dna.category})
+MÔ TẢ NGƯỜI BÁN: ${val('pdesc')||'(không có)'}
+NỖI LO: ${val('ppain') || S.dna.pain_point || '—'}
+CHỨC NĂNG: ${(S.dna.functions||[]).join(' | ')}
+PHÉP THỬ QUAY ĐƯỢC: ${(S.dna.proof_tests||[]).join(' | ')}
+MÀN HÌNH APP HIỆN GÌ: ${S.dna.phone_screen||'—'}
+LẮP Ở ĐÂU: ${S.dna.install_context||'—'}
+TRƯỚC–SAU: ${S.dna.transformation||'—'}
+HERO SHOT: ${S.dna.hero_shot||'—'}
+ĐIỂM BÁN: ${(S.dna.selling_points||[]).join(' | ')}
+HOOK: ${S.dna.hook}
+NGƯỜI DẪN: ${PRESENTER_TXT[S.presenter]}
+GHI CHÚ NGƯỜI DÙNG: ${val('notes')||'(không có)'}
+
+CẢNH: {n}=${n}, {total}=${S.scenes}, {t0}=${t0}, {t1}=${t1}, thời lượng ${S.dur}s
+SỐ SHOT BẮT BUỘC: ${shotCount()} shot, mỗi shot ~${(S.dur/shotCount()).toFixed(1)}s
+TRẦN TỪ THOẠI CẢ CẢNH: ${Math.round(S.dur*2.3)} từ
+NHỊP: ${PACE_TXT[S.pace]}
+VAI TRÒ CẢNH NÀY: ${arcFor(n,S.scenes)}
+ÂM THANH: ${VOICE_TXT[S.voice]}
+CHỮ: ${TEXT_TXT[S.text]}
+TRẦN KÝ TỰ CHO "body": ${budget}
+
+OUT CỦA CẢNH TRƯỚC (IN của cảnh này phải khớp y hệt):
+${prev}
+
+Trả JSON theo schema.`;
+}
+
+function arcFor(n,total){
+  const HOOK  = 'HOOK BẰNG NỖI LO. Giây 0 người dẫn đã nói, không có giây chết. Chạm thẳng nỗi lo trong PAIN POINT rồi giơ sản phẩm lên ngang ngực. Cắt: medium shot người dẫn nói → cận sản phẩm trên tay → cú HERO SHOT. Chưa đọc thông số vội.';
+  const PROB  = 'DỰNG LẠI NỖI LO. Cho thấy hiện trường của vấn đề: góc sân tối om, cổng không ai trông, bếp bừa, sàn đầy tóc. Người dẫn chỉ tay vào chỗ đó. Đây là cảnh làm người xem gật đầu "đúng nhà mình".';
+  const PROD  = 'GIỚI THIỆU SẢN PHẨM. Xoay trên tay cho thấy các mặt, insert macro vào bộ phận quan trọng (ống kính, tấm pin, cổng, nút). Người dẫn gọi tên từng bộ phận bằng lời dân dã, không đọc catalogue.';
+  const INSTALL='LẮP ĐẶT. Cho thấy lắp dễ tới mức nào — bắt vít lên tường/cột, hoặc cắm điện, hoặc dán. Nhấn đúng thứ khách sợ: có phải kéo dây không, có phải khoan nhiều không. Cắt: tay bắt vít → góc thấp nhìn lên sản phẩm đã gắn → mặt người dẫn gật gù.';
+  const APP   = 'KẾT NỐI ĐIỆN THOẠI. Đây là cảnh bán hàng mạnh nhất: POV nhìn xuống màn hình app đang chạy thật, thấy hình trực tiếp. Người dẫn vuốt màn hình, sản phẩm ngoài đời phản ứng theo — cắt qua lại giữa màn hình và sản phẩm.';
+  const TEST  = 'TEST THẬT. Lấy đúng một PHÉP THỬ và làm cho tới, phải thấy KẾT QUẢ trong khung: tắt đèn xem đêm, xịt nước, đứng xa gọi, thả rác cho robot hút. Không được cắt trước khi thấy kết quả.';
+  const TRANS = 'TRƯỚC–SAU. Cho thấy TRANSFORMATION: cảnh lúc chưa có vs lúc đã có, cắt liền hai shot cùng khung hình để so sánh. Đây là shot người xem sẽ tua lại và gửi cho chồng/vợ xem.';
+  const CLOSE = 'CHỐT. Người dẫn nhìn thẳng ống kính nói câu chốt chạm nỗi lo ban đầu — "giờ đi đâu cũng yên tâm". Shot cuối: sản phẩm đã lắp, đứng vững ở nơi nó thuộc về. Kết đẹp để loop về đầu.';
+  const map = {
+    2:[HOOK+' Nối luôn sang giới thiệu ở shot cuối.', APP+' Rồi '+TEST+' '+CLOSE],
+    3:[HOOK+' '+PROB, PROD+' '+INSTALL, APP+' '+TEST+' '+CLOSE],
+    4:[HOOK+' '+PROB, PROD, INSTALL+' '+APP, TEST+' '+TRANS+' '+CLOSE],
+    5:[HOOK, PROB, PROD+' '+INSTALL, APP+' '+TEST, TRANS+' '+CLOSE],
+    6:[HOOK, PROB, PROD, INSTALL, APP+' '+TEST, TRANS+' '+CLOSE]
+  };
+  return (map[total]||map[4])[n-1] || CLOSE;
+}
+function fmt(s){ const m=Math.floor(s/60), r=s%60; return m+':'+String(r).padStart(2,'0'); }
+
+/* ============================ CHẠY ============================ */
+document.getElementById('go').onclick = run;
+
+async function run(){
+  if(S.busy) return;
+  const name=document.getElementById('pname').value.trim();
+  if(!S.images.length) return note('Cần ít nhất 1 ảnh sản phẩm. Bấm vào ô kéo-thả để chọn ảnh.',true);
+  if(!name)            return note('Cần tên sản phẩm để đọc đúng thương hiệu và mã màu.',true);
+  if(!val('pdesc') && !confirm('Chưa có mô tả & tính năng (mục 03).\n\nThiếu nó thì AI phải tự đoán chức năng, và lời thoại sẽ chung chung kiểu "chất đẹp lắm" thay vì "kiềm dầu 12 tiếng" — bán kém hẳn.\n\nVẫn chạy chứ?')) return;
+
+  S.busy=true; S.results=[]; S.dna=null; S.header='';
+  document.getElementById('go').disabled=true;
+  document.getElementById('out').innerHTML='';
+  note('Đang đọc ảnh và khoá ADN sản phẩm…');
+
+  try{
+    /* 1. phân tích ảnh */
+    const content = S.images.map(im=>({type:'image', source:{type:'base64', media_type:im.media_type, data:im.b64}}));
+    content.push({type:'text', text:userAnalyze()});
+    try{
+      S.dna = parseJSON(await ask([{role:'user', content}], sysAnalyze(), 3000, true));
+    }catch(e){
+      console.warn('Phân tích lần 1 hỏng:', e);
+      note('Kết quả đọc ảnh bị cắt — đang đọc lại gọn hơn…');
+      const retry = await ask([{role:'user', content}],
+        sysAnalyze()+'\n\nLẦN TRƯỚC BẠN TRẢ LỜI QUÁ DÀI VÀ BỊ CẮT GIỮA CHỪNG. Lần này viết ngắn hơn 40%, bám sát trần từ, JSON phải đóng đủ ngoặc.', 3000, true);
+      S.dna = parseJSON(retry);
+    }
+    if(!S.dna.product_dna) throw new Error('Đọc ảnh không ra ADN sản phẩm. Thử ảnh rõ nhãn hơn.');
+    S.header = buildHeader();
+
+    /* 2. ép khối chung cho vừa */
+    if (S.header.length > headerCap()){
+      note('Khối chung '+S.header.length+' ký tự — đang ép xuống ≤'+headerCap()+'…');
+      try{
+        const fix = await ask([
+          {role:'user', content:[{type:'text', text:userAnalyze()}]},
+          {role:'assistant', content:[{type:'text', text:JSON.stringify(S.dna)}]},
+          {role:'user', content:[{type:'text', text:'Ghép lại thành khối chung được '+S.header.length+' ký tự, vượt trần '+headerCap()+'. Rút gọn các trường dna kiểu điện tín: bỏ mạo từ, bỏ tính từ trùng, giữ nguyên dữ kiện nhận dạng sản phẩm (hình khối, màu + hex, chữ nhãn). Trả lại JSON cùng schema.'}]}
+        ], sysAnalyze(), 3000, true);
+        const d2 = parseJSON(fix);
+        const keep = S.dna; S.dna = d2;
+        const h2 = buildHeader();
+        if (h2.length < S.header.length) S.header = h2; else S.dna = keep;
+      }catch(e){ console.warn('Ép khối chung không thành, giữ bản dài.', e); }
+    }
+
+    paintAll();
+    const budget = sceneCap();
+
+    /* 3. viết từng cảnh */
+    for(let n=1;n<=S.scenes;n++){
+      note('Đang viết cảnh '+n+'/'+S.scenes+' — '+shotCount()+' shot, trần '+budget+' ký tự…');
+      let sc = null;
+
+      for(let attempt=0; attempt<3 && !sc; attempt++){
+        const extra = attempt===0 ? ''
+          : '\n\nLẦN TRƯỚC BẠN BỊ CẮT GIỮA CHỪNG hoặc sai khuôn. Viết NGẮN HƠN, và bắt buộc phải viết tới dòng OUT: rồi mới dừng.';
+        try{
+          sc = parseScene(await ask([{role:'user', content:[{type:'text', text:userScene(n,budget)+extra}]}], sysScene(budget), 3000));
+        }catch(e){
+          console.warn('Cảnh '+n+' lần '+(attempt+1)+':', e.message);
+          if(attempt===2) throw new Error('Cảnh '+n+' không dựng được sau 3 lần thử. Giảm số shot hoặc số cảnh rồi chạy lại.');
+          note('Cảnh '+n+' trả về cụt — đang viết lại (lần '+(attempt+2)+')…');
+        }
+      }
+
+      for(let tries=0; tries<2 && sc.body.length>budget; tries++){
+        note('Cảnh '+n+' dài '+sc.body.length+' — đang ép xuống ≤'+budget+'…');
+        try{
+          const sc2 = parseScene(await ask([
+            {role:'user', content:[{type:'text', text:userScene(n,budget)}]},
+            {role:'assistant', content:[{type:'text', text:'TITLE: '+sc.title+'\n---BODY---\n'+sc.body}]},
+            {role:'user', content:[{type:'text', text:'body đang '+sc.body.length+' ký tự, vượt trần '+budget+'. Viết lại cho vừa: bỏ tính từ, gộp câu, rút SET+/LIGHT+. Giữ đủ '+shotCount()+' shot và toàn bộ TXT, IN, OUT. Trả đúng khuôn TITLE / ---BODY---.'}]}
+          ], sysScene(budget), 3000));
+          if(sc2.body.length < sc.body.length) sc = sc2; else break;
+        }catch(e){ console.warn('Ép cảnh không thành.', e); break; }
+      }
+
+      S.results.push(sc);
+      paintAll();
+    }
+    paintAll(true);
+    clearNote();
+  }catch(err){
+    console.error(err);
+    let m = err.message||'';
+    if(/JSON|Unterminated|Unexpected token/i.test(m))
+      m = 'Model trả về kết quả bị cắt giữa chừng. Bấm “Tạo prompt” chạy lại; nếu lặp lại thì giảm số shot hoặc số cảnh.';
+    note(m||'Có lỗi khi tạo prompt. Bấm “Tạo prompt” để chạy lại.', true);
+  }finally{
+    S.busy=false;
+    document.getElementById('go').disabled=false;
+  }
+}
+
+/* ============================ HIỂN THỊ ============================ */
+let noteEl=null;
+function note(msg,isErr){
+  const out=document.getElementById('out');
+  if(!noteEl||!out.contains(noteEl)){ noteEl=document.createElement('div'); out.insertBefore(noteEl,out.firstChild); }
+  if(!msg){ clearNote(); return; }
+  noteEl.className='status'+(isErr?' err':'');
+  noteEl.innerHTML=isErr?'':'<div class="spin"></div>';
+  const m=document.createElement('div'); m.className='msg'; m.textContent=msg;
+  noteEl.appendChild(m);
+}
+function clearNote(){ if(noteEl&&noteEl.parentNode) noteEl.parentNode.removeChild(noteEl); noteEl=null; }
+
+function sceneText(r){ return S.header+'\n'+r.body; }
+function packText(){ return S.results.map(sceneText).join('\n\n\n'); }
+
+function paintAll(final){
+  const out=document.getElementById('out');
+  out.querySelectorAll('.meter,.toolbar,.scene,.guide').forEach(e=>e.remove());
+  if(!S.dna) return;
+
+  /* đồng hồ ngân sách */
+  const lens  = S.results.map(r=> sceneText(r).length);
+  const worst = lens.length ? Math.max(...lens) : 0;
+  const capped = S.mode !== 'free';
+  const pct = capped ? Math.min(100, Math.round(worst/HARD_CAP*100)) : 0;
+  const cls = !capped ? 'ok' : (worst>=HARD_CAP ? 'bad' : (worst>SAFE_CAP ? 'warn' : 'ok'));
+
+  const m=document.createElement('div'); m.className='meter';
+  m.innerHTML = '<div class="meter-head"><div class="t">Cảnh dài nhất</div>'
+    + '<div class="n '+cls+'">'+worst.toLocaleString('vi-VN')+(capped?' / '+HARD_CAP.toLocaleString('vi-VN'):'')+' ký tự</div></div>'
+    + (capped?'<div class="bar"><i class="'+(cls==='bad'?'bad':'')+'" style="width:'+pct+'%"></i></div>':'')
+    + '<div class="segs">'
+    + Array.from({length:S.scenes},(_,i)=>{
+        const r=S.results[i];
+        if(!r) return '<div class="sg">'+(i+1)+'</div>';
+        const L = sceneText(r).length;
+        const over = capped && L >= HARD_CAP;
+        return '<div class="sg '+(over?'over':'done')+'">'+(i+1)+' · '+L+'</div>';
+      }).join('')
+    + '</div>'
+    + '<div class="meter-note">'+S.scenes+' cảnh × '+shotCount()+' shot = <b>'+(S.scenes*shotCount())+' góc máy</b> cho '+(S.scenes*S.dur)+'s video. Flow đếm ký tự từng cảnh một — STYLE LOCK '+S.header.length+' ký tự nằm sẵn trong mỗi cảnh.</div>';
+  out.appendChild(m);
+
+  /* thanh công cụ */
+  if(S.results.length){
+    const bar=document.createElement('div'); bar.className='toolbar';
+    const all=document.createElement('button'); all.className='tbtn primary'; all.textContent='Chép cả pack';
+    all.onclick=()=>copy(packText(),all,'Chép cả pack');
+    const dl=document.createElement('button'); dl.className='tbtn'; dl.textContent='Tải file .txt';
+    dl.onclick=download;
+    const ov=document.createElement('button'); ov.className='tbtn'; ov.textContent='Chép riêng chữ overlay';
+    ov.onclick=()=>copy(overlayText(),ov,'Chép riêng chữ overlay');
+    bar.append(all,dl,ov); out.appendChild(bar);
+  }
+
+  /* các cảnh */
+  S.results.forEach((r,i)=>{
+    const n=i+1, txt=sceneText(r), len=txt.length;
+    const cls = S.mode==='free' ? 'cc' : (len>=HARD_CAP ? 'cc over' : (len>SAFE_CAP ? 'cc warn' : 'cc'));
+    const card=document.createElement('div'); card.className='scene';
+    const head=document.createElement('div'); head.className='scene-head';
+    head.innerHTML='<span class="badge">CẢNH '+n+'/'+S.scenes+'</span><span class="name"></span>'
+      + '<span class="'+cls+'">'+len+' ký tự</span>'
+      + '<span class="time">'+fmt((n-1)*S.dur)+' → '+fmt(n*S.dur)+'</span>';
+    head.querySelector('.name').textContent=r.title||'';
+    const c=document.createElement('button'); c.className='copy'; c.textContent='Chép';
+    c.onclick=()=>copy(txt,c,'Chép');
+    head.appendChild(c);
+    const pre=document.createElement('pre'); pre.className='prompt'; pre.textContent=txt;
+    card.innerHTML='<div class="stripe"></div>'; card.append(head,pre); out.appendChild(card);
+  });
+
+  if(final) paintGuide();
+}
+
+function paintGuide(){
+  const out=document.getElementById('out');
+  const g=document.createElement('details'); g.className='guide';
+  const fix = 'Trước khi dựng mỗi cảnh, bỏ hai thứ ra khỏi phần gửi đi: dòng tiêu đề "=== SCENE ... ===" và các dòng bắt đầu bằng "TXT:". Giữ nguyên toàn bộ phần còn lại, không viết lại câu chữ của tôi. Ở mỗi ô cảnh trên timeline, hiện số ký tự sẽ gửi: dưới 3800 màu xanh, 3800-4000 màu cam, từ 4000 màu đỏ kèm chữ "Quá dài" và khoá nút dựng cảnh đó lại thay vì để lỗi xảy ra.';
+  g.innerHTML = '<summary>Dán vào Flow thế nào</summary><div class="body">'
+    + '<ol>'
+    + '<li>Bấm “Chép cả pack” rồi dán vào ô <b>Kịch bản phân cảnh</b> của tool. Mỗi cảnh đã tự mang STYLE LOCK, tool cứ cắt theo dòng <code>=== SCENE ===</code> và gửi từng cảnh là đúng.</li>'
+    + '<li>Upload đúng ảnh sản phẩm vừa dùng ở đây làm <code>Ingredient</code>.</li>'
+    + '<li><b>Khoá mặt người dẫn:</b> dựng cảnh 1 trước, lấy frame có mặt rõ nhất lưu vào mục <code>Nhân vật</code> của Flow, rồi gắn nhân vật đó cho các cảnh sau. Bỏ bước này là sang cảnh 2 đổi mặt ngay.</li>'
+    + '<li>Dựng cảnh 1 trước, xem sản phẩm có khớp ảnh không rồi hãy dựng tiếp — sai ở khối <code>PROD</code> thì sửa sớm đỡ tốn credit.</li>'
+    + '<li>Cảnh lệch nhẹ: dùng ô sửa của tool, mỗi lần một ý — “Sáng hơn chút. Giữ nguyên mọi thứ còn lại.”</li>'
+    + '<li>Ghép ở Scene Builder hoặc CapCut, rồi lên chữ bằng nút “Chép riêng chữ overlay”.</li>'
+    + '</ol>'
+    + '<p style="margin:10px 0 4px;font-size:12px">Tuỳ chọn — dán vào ô <b>Chỉnh sửa</b> của tool để nó cắt bớt phần thừa và chặn lỗi từ trước:</p>'
+    + '<div class="fixbox" id="fixbox"></div>'
+    + '<button class="tbtn" id="fixcopy" style="margin-top:9px">Chép lệnh chỉnh sửa</button>'
+    + '</div>';
+  out.appendChild(g);
+  document.getElementById('fixbox').textContent = fix;
+  document.getElementById('fixcopy').onclick = (e)=> copy(fix, e.target, 'Chép lệnh chỉnh sửa');
+}
+
+function overlayText(){
+  let s='CHỮ OVERLAY — dựng ở CapCut\n'+(S.dna?.product_line||'')+'\n';
+  S.results.forEach((r,i)=>{
+    const line=(r.body||'').split('\n').find(l=>l.trim().startsWith('TXT:'))||'';
+    const items=line.replace(/^\s*TXT:\s*/,'').split(';').map(x=>x.trim()).filter(Boolean);
+    const off=i*S.dur;
+    s+='\nCẢNH '+(i+1)+' (bắt đầu '+fmt(off)+')\n'+(items.length?items.map(x=>'  '+x).join('\n'):'  (không có chữ)')+'\n';
+  });
+  return s;
+}
+/* Trong iframe của claude.ai, navigator.clipboard hay bị chặn quyền.
+   Thử lần lượt: Clipboard API -> execCommand -> mở bảng cho bấm Ctrl/Cmd+C. */
+async function copyText(text){
+  try{
+    if(navigator.clipboard && window.isSecureContext){
+      await navigator.clipboard.writeText(text);
+      return true;
+    }
+  }catch(e){ console.warn('Clipboard API bị chặn, thử cách khác.', e); }
+
+  try{
+    const ta=document.createElement('textarea');
+    ta.value=text;
+    ta.setAttribute('readonly','');
+    ta.style.cssText='position:fixed;top:0;left:-9999px;opacity:0';
+    document.body.appendChild(ta);
+    const sel=document.getSelection();
+    const prev=sel && sel.rangeCount ? sel.getRangeAt(0) : null;
+    if(/ipad|iphone|ipod/i.test(navigator.userAgent)){
+      const r=document.createRange(); r.selectNodeContents(ta);
+      sel.removeAllRanges(); sel.addRange(r);
+      ta.setSelectionRange(0, text.length);
+    }else{
+      ta.select(); ta.setSelectionRange(0, text.length);
+    }
+    const ok=document.execCommand('copy');
+    document.body.removeChild(ta);
+    if(prev && sel){ sel.removeAllRanges(); sel.addRange(prev); }
+    if(ok) return true;
+  }catch(e){ console.warn('execCommand cũng hỏng.', e); }
+
+  return false;
+}
+
+function copyFallback(text){
+  const old=document.getElementById('cpwrap');
+  if(old) old.remove();
+  const w=document.createElement('div'); w.id='cpwrap'; w.className='cpwrap';
+  w.innerHTML='<div class="cpbox">'
+    + '<div class="cphead"><b>Trình duyệt chặn chép tự động</b><button class="copy" id="cpx">Đóng</button></div>'
+    + '<p class="cpnote">Chữ đã bôi sẵn — bấm <b>Ctrl + C</b> (Windows) hoặc <b>Cmd + C</b> (Mac) là xong.</p>'
+    + '<textarea id="cpta" readonly></textarea></div>';
+  document.body.appendChild(w);
+  const ta=document.getElementById('cpta');
+  ta.value=text; ta.focus(); ta.select(); ta.setSelectionRange(0, text.length);
+  const close=()=>w.remove();
+  document.getElementById('cpx').onclick=close;
+  w.onclick=e=>{ if(e.target===w) close(); };
+  document.addEventListener('keydown', function esc(e){
+    if(e.key==='Escape'){ close(); document.removeEventListener('keydown', esc); }
+  });
+}
+
+function copy(text,btn,label){
+  copyText(text).then(ok=>{
+    if(ok){
+      btn.textContent='Đã chép ✓';
+      setTimeout(()=>btn.textContent=label,1400);
+    }else{
+      copyFallback(text);
+      btn.textContent='Bấm Ctrl+C';
+      setTimeout(()=>btn.textContent=label,2200);
+    }
+  });
+}
+
+function download(){
+  try{
+    const blob=new Blob([packText()],{type:'text/plain;charset=utf-8'});
+    const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+    a.download='prompt-'+(document.getElementById('pname').value.trim().replace(/[^a-zA-Z0-9]+/g,'-').toLowerCase()||'flow')+'.txt';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(a.href), 4000);
+  }catch(e){
+    console.warn('Tải file bị chặn, mở bảng chép tay.', e);
+    copyFallback(packText());
+  }
+}
+</script>
