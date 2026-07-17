@@ -36,6 +36,7 @@
   .field + .field{margin-top:15px}
   input[type=text],textarea{width:100%;font-family:var(--f-body);font-size:13.5px;color:var(--ink);background:#FBFAFD;border:1px solid var(--line);border-radius:10px;padding:9px 11px;outline:none}
   textarea{resize:vertical;min-height:62px;line-height:1.5}
+  #pdesc{min-height:96px}
   input:focus,textarea:focus{border-color:var(--lilac);box-shadow:0 0 0 3px var(--lilac-soft)}
   #drop{border:1.5px dashed #D6CBE2;border-radius:12px;background:#FBFAFD;padding:16px;text-align:center;cursor:pointer;transition:.15s}
   #drop:hover,#drop.over{border-color:var(--lilac);background:var(--lilac-soft)}
@@ -127,7 +128,7 @@
     <div class="swatchbar"></div>
     <div class="eyebrow">Prompt studio · Google Flow · Gemini Omni Flash · 9:16</div>
     <h1>Ảnh sản phẩm vào,<br><em>prompt review quay thật</em> ra.</h1>
-    <p class="lede">Tải ảnh mỹ phẩm + gõ tên sản phẩm. Công cụ đọc ảnh, khoá <b>ADN sản phẩm – bàn tay – ánh sáng – máy quay</b>, rồi viết từng cảnh <b>nhiều shot, nhiều góc, cắt trên hành động</b> và nối đầu-đuôi. Mỗi cảnh tự mang đủ ADN và luôn nằm dưới <b>trần 4.000 ký tự</b> mà Flow đếm cho từng lần dựng. Chữ overlay để trong <b>[ngoặc vuông]</b> cho bạn dựng ở CapCut.</p>
+    <p class="lede">Tải ảnh mỹ phẩm, gõ tên + dán mô tả tính năng. Công cụ đọc ảnh, khoá <b>ADN sản phẩm – bàn tay – ánh sáng – máy quay</b>, rồi viết từng cảnh <b>nhiều shot, nhiều góc, cắt trên hành động</b> và nối đầu-đuôi. Mỗi cảnh tự mang đủ ADN và luôn nằm dưới <b>trần 4.000 ký tự</b> mà Flow đếm cho từng lần dựng. Chữ overlay để trong <b>[ngoặc vuông]</b> cho bạn dựng ở CapCut.</p>
   </header>
 
   <div class="grid">
@@ -149,54 +150,64 @@
         </div>
 
         <div class="field">
-          <div class="flabel"><span class="num">03</span> Ngân sách ký tự <span class="hint">Flow chặn 4.000/cảnh</span></div>
+          <div class="flabel"><span class="num">03</span> Mô tả &amp; tính năng <span class="hint">càng cụ thể càng bán được</span></div>
+          <textarea id="pdesc" placeholder="Dán mô tả từ shop, hoặc tự gõ: thành phần chính, công dụng, kết cấu, độ bền, tone màu, dung tích, chỉ số SPF, điểm hơn hàng cùng tầm…"></textarea>
+        </div>
+
+        <div class="field">
+          <div class="flabel"><span class="num">04</span> Nỗi đau khách hàng <span class="hint">bỏ trống thì AI tự đoán</span></div>
+          <textarea id="ppain" placeholder="Khách khổ vì cái gì trước khi có sản phẩm này? VD: nền mốc xám sau 4 tiếng; môi khô bong vảy mùa đông; da căng rát sau rửa mặt"></textarea>
+        </div>
+
+        <div class="field">
+          <div class="flabel"><span class="num">05</span> Ngân sách ký tự <span class="hint">Flow chặn 4.000/cảnh</span></div>
           <div class="chips" id="chipsMode"></div>
           <div class="alloc" id="alloc"></div>
         </div>
 
         <div class="field">
-          <div class="flabel"><span class="num">04</span> Số phân cảnh</div>
+          <div class="flabel"><span class="num">06</span> Số phân cảnh</div>
           <div class="seg" id="segScenes"></div>
         </div>
 
         <div class="field">
-          <div class="flabel"><span class="num">05</span> Thời lượng mỗi cảnh <span class="hint">Omni Flash tối đa 10s</span></div>
+          <div class="flabel"><span class="num">07</span> Thời lượng mỗi cảnh <span class="hint">Omni Flash tối đa 10s</span></div>
           <div class="seg" id="segDur"></div>
         </div>
 
         <div class="field">
-          <div class="flabel"><span class="num">06</span> Tiết tấu <span class="hint">quyết định độ dài mỗi shot</span></div>
+          <div class="flabel"><span class="num">08</span> Tiết tấu <span class="hint">quyết định độ dài mỗi shot</span></div>
           <div class="chips" id="chipsPace"></div>
           <div class="alloc" id="paceNote"></div>
         </div>
 
         <div class="field">
-          <div class="flabel"><span class="num">07</span> Số shot mỗi cảnh <span class="hint">nhiều góc trong 1 lần dựng</span></div>
+          <div class="flabel"><span class="num">09</span> Số shot mỗi cảnh <span class="hint">nhiều góc trong 1 lần dựng</span></div>
           <div class="seg" id="segShots"></div>
         </div>
 
         <div class="field">
-          <div class="flabel"><span class="num">08</span> Bối cảnh</div>
+          <div class="flabel"><span class="num">10</span> Bối cảnh</div>
           <div class="chips" id="chipsSet"></div>
         </div>
 
         <div class="field">
-          <div class="flabel"><span class="num">09</span> Tiếng nói</div>
+          <div class="flabel"><span class="num">11</span> Tiếng nói</div>
           <div class="chips" id="chipsVoice"></div>
         </div>
 
         <div class="field">
-          <div class="flabel"><span class="num">10</span> Chữ trên màn hình</div>
+          <div class="flabel"><span class="num">12</span> Chữ trên màn hình</div>
           <div class="chips" id="chipsText"></div>
         </div>
 
         <div class="field">
-          <div class="flabel"><span class="num">11</span> Ghi chú thêm <span class="hint">không bắt buộc</span></div>
-          <textarea id="notes" placeholder="Mã màu, giá, ưu đãi, USP muốn nhấn, tên shop cần đọc…"></textarea>
+          <div class="flabel"><span class="num">13</span> Ghi chú thêm <span class="hint">không bắt buộc</span></div>
+          <textarea id="notes" placeholder="Giá, mã giảm, tên shop cần đọc, câu CTA muốn chốt…"></textarea>
         </div>
 
         <div class="field">
-          <div class="flabel"><span class="num">12</span> Nguồn AI <span class="hint">để chạy ngoài claude.ai</span></div>
+          <div class="flabel"><span class="num">14</span> Nguồn AI <span class="hint">để chạy ngoài claude.ai</span></div>
           <div class="chips" id="chipsProv"></div>
           <input type="password" id="key" placeholder="API key" autocomplete="off" style="margin-top:8px">
           <input type="text" id="model" placeholder="model — để trống là dùng mặc định" style="margin-top:6px">
@@ -234,11 +245,11 @@
         <div class="body">
           <ol>
             <li><b>Lấy key.</b> Gemini: Google AI Studio → Get API key (có bậc miễn phí). Claude: console.anthropic.com → API keys (trả tiền theo lượt dùng).</li>
-            <li><b>Dán key vào mục 12</b> và chọn đúng nguồn. Key nằm trong trình duyệt máy bạn, không gửi đi đâu ngoài nhà cung cấp đó.</li>
+            <li><b>Dán key vào mục 14</b> và chọn đúng nguồn. Key nằm trong trình duyệt máy bạn, không gửi đi đâu ngoài nhà cung cấp đó.</li>
             <li><b>Đừng mở bằng cách bấm đúp file.</b> Mở kiểu <code>file://</code> hay bị chặn CORS. Mở terminal ở thư mục chứa file rồi chạy <code>python3 -m http.server 8000</code>, vào <code>localhost:8000</code>.</li>
             <li><b>Muốn dùng mọi nơi:</b> kéo file vào Netlify Drop hoặc đẩy lên GitHub Pages. Nhớ là ai mở trang cũng phải tự dán key của họ — key của bạn không nằm trong file.</li>
           </ol>
-          <p style="margin:10px 0 0;font-size:12px">Trong claude.ai thì để trống mục 12, chạy sẵn không cần key. Mọi thứ còn lại — ảnh, ngân sách ký tự, đếm ký tự, xuất file — chạy y hệt ở cả hai nơi.</p>
+          <p style="margin:10px 0 0;font-size:12px">Trong claude.ai thì để trống mục 14, chạy sẵn không cần key. Mọi thứ còn lại — ảnh, ngân sách ký tự, đếm ký tự, xuất file — chạy y hệt ở cả hai nơi.</p>
         </div>
       </details>
     </div>
@@ -248,7 +259,7 @@
         <div class="t">Chưa có prompt nào</div>
         <ol>
           <li>Tải ảnh sản phẩm</li>
-          <li>Gõ tên sản phẩm</li>
+          <li>Gõ tên + dán mô tả tính năng</li>
           <li>Chọn số cảnh &amp; thời lượng</li>
           <li>Bấm “Tạo prompt”</li>
         </ol>
@@ -475,7 +486,7 @@ async function askClaude(messages, system, maxTok){
 }
 
 async function askGemini(messages, system, maxTok, wantJSON){
-  if(!S.key) throw new Error('Gemini cần API key. Lấy ở Google AI Studio rồi dán vào mục 12.');
+  if(!S.key) throw new Error('Gemini cần API key. Lấy ở Google AI Studio rồi dán vào mục 14.');
   const contents = messages.map(m=>({
     role: m.role==='assistant' ? 'model' : 'user',
     parts: (typeof m.content==='string' ? [{type:'text',text:m.content}] : m.content).map(c=>
@@ -588,6 +599,11 @@ CÁCH LÀM:
 2. Suy ra loại sản phẩm và cách demo đúng chất: phấn → swatch cánh tay; kem nền → pump mu bàn tay rồi tán mút; son → quẹt tay + lên môi + test cốc; serum → nhỏ giọt kéo sợi.
 3. Nghĩ như người bán: sản phẩm này hơn hàng cùng tầm ở điểm nào, và điểm đó QUAY THẾ NÀO cho người xem thấy tận mắt. Người xem không tin lời khen, chỉ tin cái họ nhìn thấy.
 
+THÔNG TIN NGƯỜI BÁN CUNG CẤP LÀ TỐI THƯỢNG:
+- Có MÔ TẢ & TÍNH NĂNG thì đó là NGUỒN SỰ THẬT. selling_points và proof_tests phải bám vào đó, không được mâu thuẫn, không được lơ đi. Mỗi tính năng đáng giá phải quy ra được MỘT phép thử quay được: 'kiềm dầu 12 tiếng' → ép giấy thấm dầu; '5 loại HA' → kéo sợi giữa hai ngón; 'không trôi' → lau khăn giấy.
+- Có NỖI ĐAU thì dùng gần như nguyên văn cho pain_point, chỉ gọt cho gọn và cho thấy được bằng hình. Không tự thay bằng nỗi đau khác.
+- KHÔNG BỊA: cấm chế ra thành phần, chỉ số, số liệu, giải thưởng, tỉ lệ phần trăm, lời chứng thực mà mô tả không có và nhãn cũng không ghi. Người bán không đưa số thì bán bằng cái NHÌN THẤY được, đừng bán bằng con số tưởng tượng.
+
 ${cap}
 
 TRẢ VỀ DUY NHẤT JSON HỢP LỆ, không markdown, không lời dẫn:
@@ -640,6 +656,10 @@ CẮT CẢNH — ĐIỂM QUAN TRỌNG NHẤT:
 KHO GÓC MÁY (mỗi shot chọn một, xoay vòng cho đa dạng):
 macro top-down flat lay · 45° three-quarter · low-angle hero (sản phẩm cao lừng lững) · extreme macro chất liệu (lỗ chân lông, hạt nhũ, bọt khí) · over-the-shoulder POV như người xem tự cầm · profile ngang sát mặt bàn · rack focus từ hậu cảnh về nhãn · tilt-down theo tay · orbit 20° quanh sản phẩm · insert cận ngón tay miết.
 
+BÁM MÔ TẢ NGƯỜI BÁN:
+- VO và TXT chỉ được nói những gì có trong MÔ TẢ NGƯỜI BÁN hoặc đọc được trên nhãn. Cấm bịa số liệu, thành phần, phần trăm, giải thưởng.
+- Mỗi cảnh nên cắm được ÍT NHẤT MỘT tính năng cụ thể từ mô tả vào lời hoặc vào hình — nói suông 'chất đẹp lắm' là vứt đi, phải là 'kiềm dầu 12 tiếng' kèm cú ép giấy thấm dầu ngay trong khung.
+
 BÁN HÀNG BẰNG HÌNH, KHÔNG BẰNG LỜI:
 - Mỗi cảnh phải chốt được ÍT NHẤT MỘT BẰNG CHỨNG NHÌN THẤY ĐƯỢC: chất kéo sợi, nhũ chạy khi nghiêng, vệt swatch nửa tán nửa chưa, khăn giấy lau không trôi màu, giấy thấm dầu sạch trơn, da hết mảng khô.
 - Trước–sau phải nằm TRONG CÙNG MỘT KHUNG khi có thể: nửa tay đã dùng cạnh nửa chưa dùng, cắt cái là thấy.
@@ -678,10 +698,20 @@ IN: <frame đầu shot A, khớp OUT cảnh trước; cảnh 1 ghi: cold open>
 OUT: <frame cuối shot cuối, để cảnh sau nối vào>`;
 }
 
+function val(id){ return document.getElementById(id).value.trim(); }
+
 function userAnalyze(){
-  return `TÊN SẢN PHẨM: ${document.getElementById('pname').value.trim()}
+  const desc = val('pdesc'), pain = val('ppain');
+  return `TÊN SẢN PHẨM: ${val('pname')}
+
+MÔ TẢ & TÍNH NĂNG NGƯỜI BÁN CUNG CẤP:
+${desc || '(không có — tự suy từ ảnh và tên, và ĐỪNG bịa số liệu hay thành phần)'}
+
+NỖI ĐAU NGƯỜI BÁN CUNG CẤP:
+${pain || '(không có — tự suy ra nỗi đau hợp lý nhất với loại sản phẩm này)'}
+
 BỐI CẢNH CHỌN: ${SET_TXT[S.set]}
-GHI CHÚ: ${document.getElementById('notes').value.trim()||'(không có)'}
+GHI CHÚ: ${val('notes')||'(không có)'}
 Ảnh sản phẩm ở trên. Trả JSON theo schema.`;
 }
 
@@ -692,14 +722,15 @@ function userScene(n, budget){
 ${S.header}
 
 SẢN PHẨM: ${S.dna.product_line} (${S.dna.category})
-NỖI ĐAU: ${S.dna.pain_point||'—'}
+MÔ TẢ NGƯỜI BÁN: ${val('pdesc')||'(không có)'}
+NỖI ĐAU: ${val('ppain') || S.dna.pain_point || '—'}
 PHÉP THỬ QUAY ĐƯỢC: ${(S.dna.proof_tests||[]).join(' | ')}
 TRƯỚC–SAU: ${S.dna.before_after||'—'}
 HERO SHOT: ${S.dna.hero_shot||'—'}
 DEMO BEATS: ${(S.dna.demo_beats||[]).join(' | ')}
 ĐIỂM BÁN: ${(S.dna.selling_points||[]).join(' | ')}
 HOOK: ${S.dna.hook}
-GHI CHÚ NGƯỜI DÙNG: ${document.getElementById('notes').value.trim()||'(không có)'}
+GHI CHÚ NGƯỜI DÙNG: ${val('notes')||'(không có)'}
 
 CẢNH: {n}=${n}, {total}=${S.scenes}, {t0}=${t0}, {t1}=${t1}, thời lượng ${S.dur}s
 SỐ SHOT BẮT BUỘC: ${shotCount()} shot, mỗi shot ~${(S.dur/shotCount()).toFixed(1)}s
@@ -743,6 +774,7 @@ async function run(){
   const name=document.getElementById('pname').value.trim();
   if(!S.images.length) return note('Cần ít nhất 1 ảnh sản phẩm. Bấm vào ô kéo-thả để chọn ảnh.',true);
   if(!name)            return note('Cần tên sản phẩm để đọc đúng thương hiệu và mã màu.',true);
+  if(!val('pdesc') && !confirm('Chưa có mô tả & tính năng (mục 03).\n\nThiếu nó thì AI phải tự đoán đặc tính, và lời thoại sẽ chung chung kiểu "chất đẹp lắm" thay vì "kiềm dầu 12 tiếng" — bán kém hẳn.\n\nVẫn chạy chứ?')) return;
 
   S.busy=true; S.results=[]; S.dna=null; S.header='';
   document.getElementById('go').disabled=true;
