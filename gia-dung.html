@@ -649,17 +649,18 @@ function parseScene(txt){
   const title=(t.match(/TITLE:\s*(.+)/)||[])[1]||'';
   let body=(t.split('---BODY---')[1]||'').trim();
   if(!body) throw new Error('Model không trả đúng khuôn (thiếu ---BODY---).');
-  const out=(body.match(/\nOUT:\s*([\s\S]+?)(?:\n|$)/)||[])[1];
-  if(!out) throw new Error('TRUNCATED');
+  // OUT: ở đầu dòng bất kỳ (không bắt buộc có \n phía trước)
+  const out=(body.match(/(?:^|\n)\s*OUT:\s*(.+?)(?:\n|$)/i)||[])[1];
+  if(!out) throw new Error('TRUNCATED');   // thiếu OUT = bị cắt giữa chừng
   return { title:title.trim(), body:body.trim(), continuity_out:out.trim() };
 }
 
 /* ============================ KHỐI CỐ ĐỊNH ============================ */
-const REAL_MICRO = `REAL: Filmed by a coworker on a mid-range phone. 720p, 24fps, visibly compressed, slightly soft — NOT crisp 4K. Overcast sky or open shade, flat even light, no hard shadows. Washed-out straight-out-of-camera colour, low saturation, no grade. Deep phone-lens focus — background stays readable, NO bokeh. Imperfect framing: subject off-centre, product clipped by frame edge, horizon not level. Constant handheld drift, one autofocus hunt. Small black clip-on lavalier mic on the presenter's shirt. Real skin with pores and sweat sheen, flyaway hair, wrinkled fabric. Genuinely cluttered location: rusted roof, overhead wires, dirt ground, livestock, parked motorbike. Product has dust and fingerprints, carries real weight. Every cut is a HARD CUT: camera repositioned like a real editor cut, same presenter, same outfit, same product, same location across cuts.`;
+const REAL_MICRO = `REAL: Coworker filming on a mid-range phone. 720p, 24fps, compressed, slightly soft — NOT 4K. Overcast or open shade, flat light, no hard shadows. Washed-out low-saturation straight-out-of-camera colour, no grade. Deep focus, NO bokeh, background readable. Off-centre framing, product clipped by frame edge, tilted horizon. Handheld drift, one focus hunt. Small black clip-on mic on shirt. Real skin with pores, flyaway hair, wrinkled fabric. Cluttered real place: rusted roof, wires, dirt, livestock. Product dusty, real weight. HARD CUTS, same presenter/outfit/product/location across cuts.`;
 
 function negMicro(){
-  const aiLook = 'no cinematic lighting, no golden hour, no rim light, no bokeh, no shallow depth of field, no colour grade, no 4K sharpness, no gimbal glide, no drone shot, no level horizon, no centred composition, no clean background, no stock-footage look, no lens flare, no studio backdrop';
-  const base = 'no music, no soundtrack, no watermark, no logo overlay, no emoji, no dissolve, no fade, no whip transition, no speed ramp, no slow motion, no morphing between cuts, no face changing across cuts, no outfit changing across cuts, no product changing shape or colour across cuts, no extra fingers, no label distortion, no beauty filter, no garbled speech, no lip-sync drift';
+  const aiLook = 'no cinematic light, no golden hour, no rim light, no bokeh, no shallow depth, no colour grade, no 4K, no gimbal, no drone, no level horizon, no centred framing, no clean background, no stock-footage look, no lens flare, no studio';
+  const base = 'no music, no watermark, no logo, no emoji, no dissolve, no fade, no whip, no speed ramp, no slow motion, no morph between cuts, no face/outfit/product change across cuts, no extra fingers, no label distortion, no beauty filter, no lip-sync drift';
   return 'NEG: ' + (S.text==='capcut' ? 'no on-screen text, no captions, ' : '') + aiLook + ', ' + base + '.';
 }
 
@@ -1075,22 +1076,24 @@ async function run(){
     }
 
     paintAll();
-    const budget = sceneCap();
 
     /* 3. viết từng cảnh */
     for(let n=1;n<=S.scenes;n++){
+      const budget = sceneCap();
       note('Đang viết cảnh '+n+'/'+S.scenes+' — '+ROLES[roleFor(n,S.scenes)].name+', '+shotsFor(n,S.scenes)+' shot, '+wordsFor(n,S.scenes)+' từ…');
       let sc = null;
 
-      for(let attempt=0; attempt<3 && !sc; attempt++){
-        const extra = attempt===0 ? ''
-          : '\n\nLẦN TRƯỚC BẠN BỊ CẮT GIỮA CHỪNG hoặc sai khuôn. Viết NGẮN HƠN, và bắt buộc phải viết tới dòng OUT: rồi mới dừng.';
+      for(let attempt=0; attempt<4 && !sc; attempt++){
+        // càng thử lại càng ép ngắn mạnh hơn
+        const push = attempt===0 ? ''
+          : attempt===1 ? '\n\nLẦN TRƯỚC BỊ CẮT GIỮA CHỪNG. Viết NGẮN HƠN RÕ RỆT: phần mô tả hình (SET+/LIGHT+/ACT) tối giản, mỗi shot 1 dòng ngắn. Bắt buộc viết TỚI dòng OUT: rồi mới dừng.'
+          : '\n\nVẪN BỊ CẮT. Cắt mạnh: SET+ và LIGHT+ mỗi cái tối đa 8 từ, ACT mỗi shot tối đa 12 từ. GIỮ NGUYÊN lời SAY và các dòng IN/OUT/TXT. Toàn bộ body phải dưới '+Math.round(budget*0.8)+' ký tự.';
         try{
-          sc = parseScene(await ask([{role:'user', content:[{type:'text', text:userScene(n,budget)+extra}]}], sysScene(budget, n), 6000));
+          sc = parseScene(await ask([{role:'user', content:[{type:'text', text:userScene(n,budget)+push}]}], sysScene(budget, n), 6000));
         }catch(e){
           console.warn('Cảnh '+n+' lần '+(attempt+1)+':', e.message);
-          if(attempt===2) throw new Error('Cảnh '+n+' không dựng được sau 3 lần thử. Giảm số shot hoặc số cảnh rồi chạy lại.');
-          note('Cảnh '+n+' trả về cụt — đang viết lại (lần '+(attempt+2)+')…');
+          if(attempt===3) throw new Error('Cảnh '+n+' ('+ROLES[roleFor(n,S.scenes)].name+') viết mãi vẫn bị cắt. Cách chữa: giảm Thời lượng cảnh xuống 6-8s (mục 11), hoặc rút ngắn Mô tả sản phẩm (mục 04). Rồi bấm Tạo prompt lại.');
+          note('Cảnh '+n+' bị cắt — đang ép ngắn và viết lại (lần '+(attempt+2)+'/4)…');
         }
       }
 
