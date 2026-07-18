@@ -692,7 +692,30 @@ const TEXT_TXT = {
 };
 
 /* ============================ PROMPT ENGINE ============================ */
+function hasScript(){ return !!val('pscript'); }
+
 function sysAnalyze(){
+  // CÓ KỊCH BẢN MẪU: chỉ đọc hình dáng sản phẩm + bối cảnh/người dẫn hợp thoại. Bỏ hết phân tích bán hàng.
+  if(hasScript()){
+    return `Bạn là đạo diễn video review đồ gia dụng thông minh, rành Google Flow. Người dùng ĐÃ CÓ kịch bản thoại viral sẵn — việc của bạn CHỈ là đọc ảnh để dựng lại đúng sản phẩm, và chọn bối cảnh + người dẫn hợp với kịch bản. KHÔNG phân tích bán hàng, KHÔNG nghĩ nỗi đau, câu lật, giá — kịch bản đã lo hết.
+
+KỊCH BẢN THOẠI (để bạn hiểu ngữ cảnh mà chọn bối cảnh/người dẫn cho khớp):
+"${val('pscript')}"
+
+CÁCH LÀM: nhìn kỹ ảnh — hình khối, kích thước, chất liệu, màu (kèm hex), số ống kính, tấm pin, ăng-ten, chân đế, nút, đèn báo, chữ trên thân. Chỉ tả cái THẤY, không bịa. Rồi suy từ kịch bản ra bối cảnh và người dẫn hợp nhất.
+
+TRẢ VỀ DUY NHẤT JSON HỢP LỆ, không markdown, không lời dẫn:
+{
+ "product_line":"thương hiệu + tên + model đọc được từ ảnh",
+ "category":"camera an ninh / khoá cửa / robot hút bụi / …",
+ "product_dna":"tiếng Anh ≤70 từ, tả để dựng lại giống hệt ảnh: hình khối, kích thước, chất liệu, màu + hex, số ống kính, tấm pin, chân đế, đèn báo, chữ nhãn. Kết bằng: 'Match image_0 exactly.'",
+ "presenter_dna":"tiếng Anh ≤26 từ: người dẫn Việt Nam hợp kịch bản — tuổi, tóc, trang phục cụ thể, thái độ. Cố định để khoá mặt qua các cảnh.",
+ "set_dna":"tiếng Anh ≤24 từ: nơi quay hợp kịch bản (sân vườn, cổng nhà, chuồng trại, kho…), đạo cụ chính, chất liệu nền.",
+ "lighting_dna":"tiếng Anh ≤20 từ: sáng tự nhiên, hướng, giờ trong ngày.",
+ "camera_dna":"tiếng Anh ≤18 từ: điện thoại cầm tay, 9:16, cỡ cảnh, kiểu chuyển động."
+}`;
+  }
+
   const cap = 'ĐỘ DÀI: product_dna ≤80 từ, presenter_dna ≤30 từ, lighting_dna ≤26 từ, camera_dna ≤22 từ, set_dna ≤26 từ. Ghép lại phải ≤'+HEAD_CAP+' ký tự.';
   return `Bạn là đạo diễn kiêm prompt engineer video review ĐỒ GIA DỤNG THÔNG MINH cho thị trường Việt Nam (camera an ninh, khoá vân tay, robot hút bụi, đèn năng lượng mặt trời, nồi chiên, máy lọc nước, quạt, chuông cửa hình...), rành Google Flow / Gemini Omni Flash.
 
@@ -815,6 +838,46 @@ function sysScene(budget, n){
   const shots = shotsFor(n, S.scenes);
   const words = wordsFor(n, S.scenes);
   const floor = Math.round(words*0.92);
+
+  // ===== CÓ KỊCH BẢN MẪU: chỉ dựng hình theo thoại nguyên văn, bỏ mọi luật bán hàng =====
+  if(hasScript()){
+    return `Bạn là đạo diễn video review đồ gia dụng thông minh cho Google Flow (Gemini Omni Flash). Video này DỰNG THEO KỊCH BẢN CÓ SẴN. Việc của bạn CHỈ là dựng HÌNH cho khớp lời thoại đã cho — KHÔNG nghĩ nội dung bán hàng, KHÔNG thêm thoại.
+
+CẮT CẢNH: cảnh này ${shots} shot.${shots===1 ? ' MỘT SHOT LIỀN '+S.dur+' giây, không cắt — mặt người dẫn nói nguyên vẹn.' : ' '+shots+' shot nối HARD CUT, mỗi shot ~'+(S.dur/shots).toFixed(1)+'s, mỗi shot đổi cỡ cảnh và góc.'} Xuyên suốt: mặt/tóc/áo người dẫn, sản phẩm, bối cảnh Y HỆT — chỉ máy đổi chỗ.
+
+LỜI THOẠI: dùng NGUYÊN VĂN đoạn được cấp, chia vào các dòng SAY theo nhịp nói. Cấm sửa/thêm/bớt chữ. Cấm bịa thoại mới.
+
+HÌNH PHẢI MINH HOẠ ĐÚNG Ý CÂU ĐANG NÓI:
+- Nói về nỗi lo → người dẫn đứng tại hiện trường, biểu cảm hợp lời, tay ôm sản phẩm.
+- Nói tên bộ phận/tính năng → tay chỉ vào đúng bộ phận đó, hoặc insert macro.
+- Nói "xem điện thoại / app" → cầm điện thoại hiện live view.
+- Nói chốt đơn → đạo cụ hợp lời (thùng hàng, sản phẩm đã lắp).
+${roleHintShort(role)}
+
+KHO GÓC MÁY: medium người dẫn cầm sản phẩm nói vào máy · cận mặt · insert macro chi tiết · POV màn hình app · góc thấp nhìn lên sản phẩm đã lắp · over-shoulder · wide thấy cả người và nơi lắp · tay chỉ bộ phận.
+
+LUẬT KHÁC:
+- Khối STYLE LOCK đã nằm sẵn ở đầu cảnh, TUYỆT ĐỐI KHÔNG chép lại.
+- Mô tả hình viết TIẾNG ANH gọn. Chỉ SAY và TXT là tiếng Việt có dấu.
+- Mốc giây tính từ 0.0 của cảnh, shot cuối kết ở ${S.dur}.0s.
+- IN của cảnh khớp y hệt OUT cảnh trước.
+- Giữ luật cắt và chống-AI-look trong STYLE LOCK.
+
+NGÂN SÁCH: phần sau ---BODY--- ≤ ${budget} ký tự. Mô tả hình tối giản để không tràn — thoại là phần quan trọng, hình chỉ cần đủ dựng.
+
+KHUÔN TRẢ LỜI — trả về ĐÚNG dạng text này, KHÔNG JSON, KHÔNG markdown, KHÔNG lời dẫn:
+TITLE: <tên cảnh ngắn tiếng Việt>
+---BODY---
+=== SCENE {n}/{total} · {t0}–{t1} · {title} ===
+SET+: <ngắn, tiếng Anh>
+LIGHT+: <ngắn, tiếng Anh>
+EDIT: ${shots===1 ? 'ONE continuous take, no cuts.' : shots+' shots, hard cuts on action, no dissolve.'} Same face/outfit/product across cuts.
+SHOT A 0.0-x.xs | <cỡ cảnh + góc> | CAM: <máy> | ACT: <hành động khớp lời> | SAY: "<thoại nguyên văn>" | SFX: <tiếng>
+${shots>1 ? 'SHOT B … (đủ '+shots+' shot, mốc giây nối tới '+S.dur+'.0s)' : '<chỉ 1 dòng SHOT A, 0.0-'+S.dur+'.0s>'}
+TXT: 0.0-2.5s [chữ Việt ≤6 từ]; ...
+IN: <khớp OUT cảnh trước; cảnh 1: cold open>
+OUT: <frame cuối, để cảnh sau nối vào — BẮT BUỘC có, viết xong mới dừng>`;
+  }
 
   return `Bạn là đạo diễn kiêm prompt engineer cho Google Flow (Gemini Omni Flash), chuyên video review ĐỒ GIA DỤNG THÔNG MINH kiểu TikTok Việt Nam — loại xem xong là nhắn tin hỏi giá.
 
@@ -967,24 +1030,42 @@ function userScene(n, budget){
   const t0=fmt((n-1)*S.dur), t1=fmt(n*S.dur);
   const prev = n>1 ? S.results[n-2].continuity_out : 'cold open — chưa có cảnh trước';
   const role = roleFor(n, S.scenes);
-
   const chunks = scriptChunks(S.scenes);
-  const myScript = chunks ? chunks[n-1] : '';
-  const scriptBlock = chunks ? (myScript
-    ? `\n════ KỊCH BẢN MẪU — LỜI THOẠI CỦA CẢNH NÀY (BẮT BUỘC DÙNG NGUYÊN VĂN) ════
-"${myScript}"
 
-LUẬT TỐI THƯỢNG khi có kịch bản mẫu:
-- Lời trong các dòng SAY của cảnh này phải là ĐOẠN TRÊN, chép NGUYÊN VĂN, không sửa một chữ, không thêm bớt, không diễn đạt lại. Chia đoạn đó vào ${shotsFor(n,S.scenes)} shot theo nhịp nói tự nhiên.
-- Số shot, luật hình, luật chống-AI-look vẫn giữ nguyên. Bạn CHỈ dựng bối cảnh, góc máy, hành động, biểu cảm sao cho KHỚP với lời thoại có sẵn này.
-- BỎ QUA mọi gợi ý thoại khác (câu lật, CTA, hook tự sinh) — kịch bản mẫu thay thế hết. Không tự thêm câu nào ngoài đoạn trên.
-- Nếu đoạn thoại dài hơn ${S.dur} giây khi đọc, vẫn giữ nguyên văn, chia đều cho các shot; đừng cắt chữ.`
-    : `\n════ KỊCH BẢN MẪU ════
-Cảnh này KHÔNG có phần thoại trong kịch bản mẫu (kịch bản ngắn hơn số cảnh). Tự viết thoại cho cảnh này theo vai trò, giọng khớp với các cảnh có kịch bản.`) : '';
+  // ===== CHẾ ĐỘ KỊCH BẢN MẪU: gọn, chỉ dựng lại theo thoại =====
+  if(chunks){
+    const myScript = chunks[n-1] || '';
+    const roleName = ROLES[role].name;
+    return `STYLE LOCK (đã ghép sẵn ở đầu cảnh — KHÔNG chép lại vào body):
+${S.header}
 
+Đây là video review dựng theo KỊCH BẢN CÓ SẴN. Việc của bạn: dựng HÌNH cho khớp thoại. Không nghĩ nội dung bán hàng, kịch bản đã lo hết.
+
+════ LỜI THOẠI CẢNH NÀY — CHÉP NGUYÊN VĂN VÀO CÁC DÒNG SAY ════
+${myScript ? '"'+myScript+'"' : '(Kịch bản ngắn hơn số cảnh — cảnh này không có thoại. Để các dòng SAY trống, chỉ dựng hình nối tiếp mạch.)'}
+
+LUẬT:
+- Lời trong SAY = đoạn trên, chép NGUYÊN VĂN, không sửa/thêm/bớt một chữ. Chia vào ${shotsFor(n,S.scenes)} shot theo nhịp nói.
+- Bạn CHỈ viết SET+/LIGHT+/CAM+/ACT/TXT/IN/OUT cho khớp lời. Không tự thêm câu thoại nào.
+- Bối cảnh, người dẫn, sản phẩm bám STYLE LOCK. Hành động phải minh hoạ đúng ý câu đang nói (nói "hai mắt soi bờ rào" thì tay chỉ vào mắt camera; nói "xem điện thoại" thì cầm điện thoại hiện app).
+- Giữ luật cắt & chống-AI-look trong STYLE LOCK.
+
+SẢN PHẨM: ${S.dna.product_line} (${S.dna.category})
+GHI CHÚ NGƯỜI DÙNG: ${val('notes')||'(không có)'}
+
+CẢNH: {n}=${n}, {total}=${S.scenes}, {t0}=${t0}, {t1}=${t1}, thời lượng ${S.dur}s
+VAI TRÒ: ${roleName} — ${shotsFor(n,S.scenes)} shot, thoại LẤY NGUYÊN VĂN từ kịch bản
+${roleHintShort(role)}
+
+OUT CẢNH TRƯỚC (IN cảnh này khớp y hệt):
+${prev}
+
+Trả đúng khuôn TITLE / ---BODY---.`;
+  }
+
+  // ===== CHẾ ĐỘ TỰ VIẾT: đầy đủ DNA bán hàng =====
   return `STYLE LOCK (đã ghép sẵn, CHỈ để bạn biết ngữ cảnh — KHÔNG chép lại vào body):
 ${S.header}
-${scriptBlock}
 
 SẢN PHẨM: ${S.dna.product_line} (${S.dna.category})
 BIG IDEA — bám cái này: ${S.dna.big_idea||'—'}
@@ -1013,13 +1094,25 @@ GIỌNG BÁN: ${TONE_TXT[S.tone]}
 ${FORMAT_TXT[S.format]}
 
 CẢNH CẦN VIẾT: {n}=${n}, {total}=${S.scenes}, {t0}=${t0}, {t1}=${t1}, thời lượng ${S.dur}s
-VAI TRÒ: ${ROLES[role].name} — ${shotsFor(n,S.scenes)} shot${myScript?', thoại LẤY TỪ KỊCH BẢN MẪU':', sàn '+Math.round(wordsFor(n,S.scenes)*0.92)+' từ, nhắm '+wordsFor(n,S.scenes)+' từ'}
+VAI TRÒ: ${ROLES[role].name} — ${shotsFor(n,S.scenes)} shot, sàn ${Math.round(wordsFor(n,S.scenes)*0.92)} từ, nhắm ${wordsFor(n,S.scenes)} từ
 CHỮ: ${TEXT_TXT[S.text]}
 
 OUT CỦA CẢNH TRƯỚC (IN của cảnh này phải khớp y hệt):
 ${prev}
 
 Trả đúng khuôn TITLE / ---BODY---.`;
+}
+
+// gợi ý dựng hình ngắn theo vai trò, cho chế độ kịch bản
+function roleHintShort(role){
+  const H={
+    pain:'Hình: người dẫn đứng tại hiện trường nỗi đau, ôm sẵn sản phẩm ngang ngực từ frame đầu, mặt hợp cảm xúc câu nói.',
+    solution:'Hình: mỗi shot minh hoạ đúng ý câu đang nói. Có 1 shot vừa thấy sản phẩm đã lắp vừa thấy điện thoại hiện app.',
+    proof:'Hình: làm đúng phép thử mà câu nói nhắc tới, phải thấy kết quả trong khung.',
+    life:'Hình: khoảnh khắc đời thật, màn hình điện thoại cho thấy cái người mua muốn thấy.',
+    close:'Hình: đạo cụ theo lời — nói "gửi về tận quê" thì ôm thùng carton, nói "lắp chỗ này" thì sản phẩm trên cột.'
+  };
+  return H[role]||'';
 }
 
 function fmt(s){ const m=Math.floor(s/60), r=s%60; return m+':'+String(r).padStart(2,'0'); }
