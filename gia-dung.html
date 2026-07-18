@@ -436,6 +436,11 @@ function syncProv(){
     n.innerHTML='Chạy độc lập bằng key của bạn, model <b>'+activeModel()+'</b>. Key nằm ở trình duyệt máy bạn, tính phí vào tài khoản bạn.';
   }
 }
+if(!/claude\.ai|anthropic/.test(location.hostname) && !store.get('key_claude')){
+  S.provider='gemini';
+  chips('chipsProv',PROVIDERS,'provider',()=>{ S.key = store.get('key_'+S.provider); document.getElementById('key').value = S.key; syncProv(); });
+  S.key = store.get('key_gemini'); if(keyEl) keyEl.value = S.key;
+}
 syncProv();
 
 /* Mỗi cảnh = STYLE LOCK + phần riêng, cả cụm phải lọt 4.000 */
@@ -475,28 +480,42 @@ drop.ondrop=e=>{e.preventDefault();drop.classList.remove('over');handleFiles(e.d
 fileInput.onchange=e=>handleFiles(e.target.files);
 
 async function handleFiles(list){
-  for (const f of Array.from(list)){
-    if(!f.type.startsWith('image/')) continue;
+  const files = Array.from(list||[]).filter(f=>f && f.type && f.type.startsWith('image/'));
+  if(!files.length){ note('File vừa chọn không phải ảnh. Chọn ảnh JPG/PNG.', true); return; }
+  let failed = 0;
+  for (const f of files){
     if(S.images.length>=3) break;
-    try{ S.images.push(await shrink(f)); }catch(err){ console.error(err); }
+    try{ S.images.push(await shrink(f)); }
+    catch(err){ failed++; console.error('Đọc ảnh lỗi:', err); }
   }
   paintThumbs();
+  if(failed) note('Có '+failed+' ảnh không đọc được (có thể là HEIC từ iPhone). Chụp lại dạng JPG hoặc chọn ảnh khác.', true);
+  else clearNote();
 }
 function shrink(file){
   return new Promise((res,rej)=>{
+    let done=false;
+    const finish=(fn,v)=>{ if(done) return; done=true; fn(v); };
+    // lưới an toàn: 15s không xong thì báo lỗi thay vì treo im lặng
+    const timer=setTimeout(()=>finish(rej,new Error('Đọc ảnh quá lâu, bỏ qua ảnh này')),15000);
     const fr=new FileReader();
-    fr.onerror=()=>rej(new Error('Không đọc được ảnh'));
+    fr.onerror=()=>{ clearTimeout(timer); finish(rej,new Error('Không đọc được file ảnh')); };
     fr.onload=()=>{
       const img=new Image();
-      img.onerror=()=>rej(new Error('Ảnh lỗi'));
+      img.onerror=()=>{ clearTimeout(timer); finish(rej,new Error('Trình duyệt không mở được ảnh này')); };
       img.onload=()=>{
-        const max=900, sc=Math.min(1,max/Math.max(img.width,img.height));
-        const c=document.createElement('canvas');
-        c.width=Math.round(img.width*sc); c.height=Math.round(img.height*sc);
-        const x=c.getContext('2d'); x.fillStyle='#fff'; x.fillRect(0,0,c.width,c.height);
-        x.drawImage(img,0,0,c.width,c.height);
-        const url=c.toDataURL('image/jpeg',.88);
-        res({b64:url.split(',')[1], media_type:'image/jpeg', url});
+        clearTimeout(timer);
+        try{
+          const w=img.naturalWidth||img.width, h=img.naturalHeight||img.height;
+          if(!w||!h){ return finish(rej,new Error('Ảnh không có kích thước')); }
+          const max=900, sc=Math.min(1,max/Math.max(w,h));
+          const c=document.createElement('canvas');
+          c.width=Math.max(1,Math.round(w*sc)); c.height=Math.max(1,Math.round(h*sc));
+          const x=c.getContext('2d'); x.fillStyle='#fff'; x.fillRect(0,0,c.width,c.height);
+          x.drawImage(img,0,0,c.width,c.height);
+          const url=c.toDataURL('image/jpeg',.88);
+          finish(res,{b64:url.split(',')[1], media_type:'image/jpeg', url});
+        }catch(e){ finish(rej,e); }
       };
       img.src=fr.result;
     };
@@ -958,6 +977,9 @@ async function run(){
   const name=document.getElementById('pname').value.trim();
   if(!S.images.length) return note('Cần ít nhất 1 ảnh sản phẩm. Bấm vào ô kéo-thả để chọn ảnh.',true);
   if(!name)            return note('Cần tên sản phẩm để đọc đúng thương hiệu và mã màu.',true);
+  const onClaudeAI = /claude\.ai|anthropic/.test(location.hostname);
+  if(!S.key && !(S.provider==='claude' && onClaudeAI))
+    return note('Chưa có API key ở mục "Nguồn AI" (cuối cột trái). Bạn có key Gemini: bấm chọn "Gemini (Google AI Studio)" rồi dán key vào. Không có key thì công cụ không gọi được AI để viết prompt.', true);
   if(!val('pbuyer') && !confirm('Chưa điền “Ai móc ví, ai xài” (mục 05).\n\nĐây là ô quyết định video hay hay dở. Camera treo ở quê nhưng con ở xa trả tiền — video phải nói với CON, không nói với ông bà. Thiếu nó, AI sẽ nói với nhầm người.\n\nVẫn chạy chứ?')) return;
   if(!val('pdesc') && !confirm('Chưa có mô tả & tính năng (mục 03).\n\nThiếu nó thì AI phải tự đoán chức năng, và lời thoại sẽ chung chung kiểu "chất đẹp lắm" thay vì "kiềm dầu 12 tiếng" — bán kém hẳn.\n\nVẫn chạy chứ?')) return;
 
