@@ -199,6 +199,7 @@
         <div class="field">
           <div class="flabel"><span class="num">12</span> Người dẫn <span class="hint">khoá mặt xuyên suốt</span></div>
           <div class="chips" id="chipsPresenter"></div>
+          <div class="alloc" id="presenterNote"></div>
         </div>
 
         <div class="field">
@@ -316,6 +317,7 @@ const FORMAT_TXT = {
 };
 
 const PRESENTERS = [
+  ['ref',    'Từ ảnh nhân vật (Flow)'],
   ['auto',   'Tự chọn theo sản phẩm'],
   ['sales',  'Nữ nhân viên trẻ, áo đồng phục'],
   ['owner',  'Nam chủ shop 30–40'],
@@ -375,7 +377,7 @@ const PROVIDERS = [
 const DEFAULT_MODEL = { claude:'claude-sonnet-5', gemini:'gemini-3.5-flash' };
 const ARTIFACT_MODEL = 'claude-sonnet-4-6';   // khi chạy trong claude.ai, không cần key
 
-const S = { images:[], mode:'scene', scenes:3, dur:10, format:'chotdon', presenter:'auto', tone:'tamsu', provider:'claude', key:'', model:'', set:'auto', voice:'direct', text:'capcut',
+const S = { images:[], mode:'scene', scenes:3, dur:10, format:'chotdon', presenter:'ref', tone:'tamsu', provider:'claude', key:'', model:'', set:'auto', voice:'direct', text:'capcut',
             busy:false, dna:null, header:'', results:[] };
 
 /* Lưu key ở máy người dùng. Trong claude.ai localStorage bị chặn -> nuốt lỗi, ở đó vốn không cần key. */
@@ -410,7 +412,14 @@ seg('segDur',[6,8,10],'dur', v=>v+'s');
 chips('chipsMode',MODES,'mode',syncGo);
 chips('chipsFormat',FORMATS,'format');
 chips('chipsTone',TONES,'tone');
-chips('chipsPresenter',PRESENTERS,'presenter');
+chips('chipsPresenter',PRESENTERS,'presenter',syncPresenterNote);
+function syncPresenterNote(){
+  const el=document.getElementById('presenterNote'); if(!el) return;
+  el.innerHTML = S.presenter==='ref'
+    ? 'Prompt sẽ yêu cầu Flow lấy người dẫn từ <b>ảnh nhân vật</b>. Nhớ gắn ảnh nhân vật vào mục <b>Nhân vật</b> (hoặc thêm làm Ingredient) trong Flow trước khi dựng.'
+    : '';
+}
+syncPresenterNote();
 chips('chipsSet',SETS,'set');
 chips('chipsVoice',VOICES,'voice');
 chips('chipsText',TEXTS,'text');
@@ -665,6 +674,7 @@ function negMicro(){
 }
 
 const PRESENTER_TXT = {
+  ref:   'Lấy người dẫn từ ảnh nhân vật tham chiếu đã gắn trong Flow — không tự tả ngoại hình.',
   auto:  'Tự chọn người dẫn hợp tệp khách của sản phẩm này.',
   sales: 'Nữ Việt 22–27, tóc buộc gọn hoặc xoã ngang vai, áo polo/sơ mi đồng phục công ty, quần jean, nói nhanh gọn tự tin, kiểu nhân viên kinh doanh đứng ở kho.',
   owner: 'Nam Việt 30–40, tóc ngắn, áo polo hoặc sơ mi bỏ thùng, dáng chắc, nói chậm chắc, kiểu chủ cửa hàng nói với khách quen.',
@@ -820,11 +830,14 @@ QUAN TRỌNG: viết đủ ý nhưng KHÔNG DÀI DÒNG — trả lời quá dài
 
 function buildHeader(){
   const d = S.dna;
+  const presenterLine = S.presenter==='ref'
+    ? 'PRESENTER: Use the attached character reference image for the host — same face, hair, and outfit in every scene. Do not invent a different appearance.'
+    : 'PRESENTER: '+d.presenter_dna;
   return [
     'STYLE LOCK — áp cho mọi cảnh',
     'FMT: 9:16, 720p, '+S.dur+'s, native audio, Vietnamese speech, no music. image_0 = product photo.',
     'PROD: '+d.product_dna,
-    'PRESENTER: '+d.presenter_dna,
+    presenterLine,
     'SET: '+d.set_dna,
     'LIGHT: '+d.lighting_dna,
     'CAM: '+d.camera_dna,
@@ -847,11 +860,11 @@ CẮT CẢNH: cảnh này ${shots} shot.${shots===1 ? ' MỘT SHOT LIỀN '+S.du
 
 LỜI THOẠI: dùng NGUYÊN VĂN đoạn được cấp, chia vào các dòng SAY theo nhịp nói. Cấm sửa/thêm/bớt chữ. Cấm bịa thoại mới.
 
-HÌNH PHẢI MINH HOẠ ĐÚNG Ý CÂU ĐANG NÓI:
-- Nói về nỗi lo → người dẫn đứng tại hiện trường, biểu cảm hợp lời, tay ôm sản phẩm.
-- Nói tên bộ phận/tính năng → tay chỉ vào đúng bộ phận đó, hoặc insert macro.
-- Nói "xem điện thoại / app" → cầm điện thoại hiện live view.
-- Nói chốt đơn → đạo cụ hợp lời (thùng hàng, sản phẩm đã lắp).
+HÌNH PHẢI KHỚP TỪNG CÂU THOẠI — LUẬT QUAN TRỌNG NHẤT:
+- Chia đoạn thoại thành từng mệnh đề, MỖI SHOT gánh một mệnh đề. Hành động (ACT) và bối cảnh (SET+) của shot phải minh hoạ ĐÚNG mệnh đề đang nói trong shot đó, không lệch pha.
+- Nói "cổng cách xa modem" → khung thấy cái cổng ở xa. Nói "tối đến khó nhìn" → gợi cảnh tối/chiều. Nói "tấm pin năng lượng mặt trời" → tay chỉ vào tấm pin. Nói "hai mắt soi bờ rào" → tay chỉ hai mắt, hậu cảnh có bờ rào. Nói "xem trên điện thoại" → cầm điện thoại hiện live view. Nói "kéo điện được không" → chỉ vào ổ điện/dây. Nói chốt đơn → đạo cụ hợp lời.
+- Nếu một shot đang nói ý A mà hình lại diễn ý B, đó là LỖI. Người xem phải thấy đúng cái tai đang nghe.
+- Bối cảnh xuyên suốt vẫn là một nơi (theo STYLE LOCK), nhưng góc máy và điểm nhấn trong khung đổi theo lời.
 ${roleHintShort(role)}
 
 KHO GÓC MÁY: medium người dẫn cầm sản phẩm nói vào máy · cận mặt · insert macro chi tiết · POV màn hình app · góc thấp nhìn lên sản phẩm đã lắp · over-shoulder · wide thấy cả người và nơi lắp · tay chỉ bộ phận.
@@ -1008,22 +1021,41 @@ GHI CHÚ: ${val('notes')||'(không có)'}
 Ảnh sản phẩm ở trên. Trả JSON theo schema.`;
 }
 
-// Cắt kịch bản mẫu thành N phần theo câu, cân đối độ dài, để mỗi cảnh nhận đúng phần thoại của nó
+// Chia kịch bản thành N cảnh, CÂN ĐỀU THEO SỐ TỪ, giữ nguyên câu.
+// Dùng quy hoạch động: tìm cách cắt ở ranh giới câu sao cho tổng độ lệch so với mức trung bình là NHỎ NHẤT
+// → không cảnh nào bị nhồi quá đầy hay bỏ đói, kể cả cảnh cuối.
 function scriptChunks(total){
   const raw = val('pscript');
   if(!raw) return null;
-  const sentences = raw.replace(/\s+/g,' ').trim().match(/[^.!?…]+[.!?…]+|[^.!?…]+$/g) || [raw];
-  const totalLen = sentences.reduce((a,s)=>a+s.length,0);
-  const target = totalLen/total;
-  const chunks = []; let cur=''; 
-  for(const sen of sentences){
-    if(cur && cur.length + sen.length > target*1.35 && chunks.length < total-1){ chunks.push(cur.trim()); cur=''; }
-    cur += (cur?' ':'') + sen.trim();
+  const sentences = (raw.replace(/\s+/g,' ').trim().match(/[^.!?…]+[.!?…]+|[^.!?…]+$/g) || [raw]).map(s=>s.trim());
+  const wc = s => s.split(/\s+/).filter(Boolean).length;
+  const words = sentences.map(wc);
+  const S = sentences.length;
+  if(S <= total){
+    // ít câu hơn số cảnh: mỗi câu 1 cảnh, phần dư để trống
+    const out = sentences.slice();
+    while(out.length < total) out.push('');
+    return out;
   }
-  if(cur) chunks.push(cur.trim());
-  while(chunks.length < total) chunks.push('');           // thiếu thì để trống, AI tự viết phần đó
-  while(chunks.length > total){ chunks[total-1] += ' ' + chunks.pop(); }
-  return chunks;
+  const target = words.reduce((a,b)=>a+b,0) / total;
+
+  // dp[i][k] = tổng bình phương lệch nhỏ nhất khi chia i câu đầu thành k cảnh
+  const pre=[0]; for(let i=0;i<S;i++) pre.push(pre[i]+words[i]);
+  const cost=(a,b)=>{ const d=(pre[b]-pre[a])-target; return d*d; };  // lệch của cảnh gồm câu [a..b)
+  const INF=1e18;
+  const dp=Array.from({length:S+1},()=>Array(total+1).fill(INF));
+  const cut=Array.from({length:S+1},()=>Array(total+1).fill(0));
+  dp[0][0]=0;
+  for(let k=1;k<=total;k++)
+    for(let i=k;i<=S;i++)
+      for(let j=k-1;j<i;j++){
+        const c=dp[j][k-1]+cost(j,i);
+        if(c<dp[i][k]){ dp[i][k]=c; cut[i][k]=j; }
+      }
+  // truy vết
+  const bounds=[]; let i=S;
+  for(let k=total;k>=1;k--){ const j=cut[i][k]; bounds.unshift([j,i]); i=j; }
+  return bounds.map(([a,b])=>sentences.slice(a,b).join(' '));
 }
 
 function userScene(n, budget){
