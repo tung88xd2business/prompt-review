@@ -374,6 +374,7 @@ const S = { images:[], mode:'scene', scenes:3, dur:10, format:'chotdon', present
             busy:false, dna:null, header:'', results:[] };
 
 /* Lưu key ở máy người dùng. Trong claude.ai localStorage bị chặn -> nuốt lỗi, ở đó vốn không cần key. */
+function val(id){ const el=document.getElementById(id); return el ? el.value.trim() : ''; }
 const store = {
   get(k){ try{ return localStorage.getItem(k)||''; }catch(e){ return ''; } },
   set(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
